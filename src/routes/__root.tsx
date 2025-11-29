@@ -29,13 +29,57 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'ISKM Montreal | Hare Krishna Temple',
+      },
+      {
+        name: 'description',
+        content: 'Welcome to ISKM Montreal. Join us for spiritual programs, kirtan, and prasadam. Dedicated to the teachings of Srila Prabhupada.',
+      },
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:title',
+        content: 'ISKM Montreal | Hare Krishna Temple',
+      },
+      {
+        property: 'og:description',
+        content: 'Welcome to ISKM Montreal. Join us for spiritual programs, kirtan, and prasadam. Dedicated to the teachings of Srila Prabhupada.',
+      },
+      {
+        property: 'og:image',
+        content: '/iskm-montreal-banner.png',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'ISKM Montreal | Hare Krishna Temple',
+      },
+      {
+        name: 'twitter:description',
+        content: 'Welcome to ISKM Montreal. Join us for spiritual programs, kirtan, and prasadam. Dedicated to the teachings of Srila Prabhupada.',
+      },
+      {
+        name: 'twitter:image',
+        content: '/iskm-montreal-banner.png',
       },
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'icon',
+        href: '/iskm-montreal.png',
+      },
+      {
+        rel: 'apple-touch-icon',
+        href: '/iskm-montreal.png',
       },
     ],
   }),
@@ -52,11 +96,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
-        <title>ISKM Montreal | Hare Krishna Temple</title>
-        <meta
-          name="description"
-          content="Welcome to ISKM Montreal. Join us for spiritual programs, kirtan, and prasadam. Dedicated to the teachings of Srila Prabhupada."
-        />
       </head>
       <body>
         <ThemeProvider defaultTheme="light" storageKey="pondi-ui-theme">
