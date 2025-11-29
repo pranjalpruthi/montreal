@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Youtube, Mail, MapPin, Facebook, Instagram } from 'lucide-react'
+import { Youtube, Mail, MapPin, Facebook, Instagram, Phone, ShoppingBag, Heart, Video, Mic, Music } from 'lucide-react'
 import { motion } from 'motion/react'
 
 export function Footer() {
@@ -34,9 +34,9 @@ export function Footer() {
                 viewport={{ once: true }}
                 className="container mx-auto px-4 md:px-8 py-16 max-w-7xl relative z-10"
             >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 md:gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 md:gap-8">
                     {/* Brand & Quote */}
-                    <motion.div variants={itemVariants} className="md:col-span-2 space-y-6">
+                    <motion.div variants={itemVariants} className="lg:col-span-2 space-y-6">
                         <div className="flex items-center gap-3 mb-2">
                              <img src="/iskm-montreal.png" alt="ISKM Logo" className="h-12 w-12 object-contain" />
                              <h3 className="text-2xl font-bold text-foreground font-serif">ISKM Montreal</h3>
@@ -67,15 +67,34 @@ export function Footer() {
                         </ul>
                     </motion.div>
 
+                    {/* Explore / Resources */}
+                    <motion.div variants={itemVariants} className="space-y-6">
+                        <h4 className="font-bold text-foreground uppercase tracking-wider text-sm border-b border-border pb-2 inline-block">Explore</h4>
+                        <ul className="space-y-3 text-sm text-muted-foreground">
+                            <li><a href="https://www.vinted.fr/member/79720087-haribol108" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><ShoppingBag className="h-4 w-4" /> Book Shop</a></li>
+                            <li><a href="http://patreon.com/cw/Nitai" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><Heart className="h-4 w-4" /> Patreon</a></li>
+                            <li><a href="https://www.youtube.com/@iskmkids" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><Video className="h-4 w-4" /> ISKM Kids</a></li>
+                            <li><a href="http://www.youtube.com/@NimaiNitaiDasa" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><Video className="h-4 w-4" /> Personal Vlogs</a></li>
+                            <li><a href="https://www.youtube.com/watch?v=NYG4bryqMXg&t=160s" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><Mic className="h-4 w-4" /> Podcasts</a></li>
+                            <li><a href="https://youtu.be/BRmvpb3gczE?si=2kKziMXEsyl0uKwM" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors flex items-center gap-2 group"><Music className="h-4 w-4" /> Kirtans</a></li>
+                        </ul>
+                    </motion.div>
+
                     {/* Contact & Social */}
                     <motion.div variants={itemVariants} className="space-y-6">
                         <h4 className="font-bold text-foreground uppercase tracking-wider text-sm border-b border-border pb-2 inline-block">Connect</h4>
                         <div className="flex flex-col gap-4 text-sm text-muted-foreground">
-                            <a href="mailto:iskm.montreal@gmail.com" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
+                            <a href="mailto:admin@iskm.ca" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
                                 <div className="p-2 bg-background dark:bg-card rounded-full shadow-sm group-hover:shadow-md transition-all border border-border">
                                     <Mail className="h-4 w-4 text-primary" />
                                 </div>
-                                iskm.montreal@gmail.com
+                                admin@iskm.ca
+                            </a>
+                            <a href="tel:+12633807303" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
+                                <div className="p-2 bg-background dark:bg-card rounded-full shadow-sm group-hover:shadow-md transition-all border border-border">
+                                    <Phone className="h-4 w-4 text-primary" />
+                                </div>
+                                +1 (263) 380-7303
                             </a>
                             <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
                                 <div className="p-2 bg-background dark:bg-card rounded-full shadow-sm group-hover:shadow-md transition-all border border-border">
@@ -130,6 +149,7 @@ export function Footer() {
                     <div className="flex gap-6">
                          <Link to="/legal/terms" className="hover:text-foreground transition-colors">Terms</Link>
                          <Link to="/legal/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+                         <Link to="/legal/returns" className="hover:text-foreground transition-colors">Returns</Link>
                     </div>
                 </motion.div>
             </motion.div>

@@ -184,7 +184,7 @@ export function Hero() {
               <Youtube className="h-6 w-6" />
               <span className="sr-only">YouTube</span>
             </a>
-             <a href="mailto:iskm.montreal@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors transform hover:scale-110">
+             <a href="mailto:admin@iskm.ca" className="text-muted-foreground hover:text-foreground transition-colors transform hover:scale-110">
               <Mail className="h-6 w-6" />
               <span className="sr-only">Email</span>
             </a>

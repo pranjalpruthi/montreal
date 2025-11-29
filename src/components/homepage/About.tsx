@@ -1,4 +1,4 @@
-import { Users } from 'lucide-react'
+import deitiesImage from '../../assets/Deities.png'
 
 export function About() {
   return (
@@ -36,10 +36,14 @@ export function About() {
 
           <div className="relative">
             <div className="absolute -inset-4 bg-accent/10 rounded-3xl transform rotate-3 opacity-50 blur-sm"></div>
-            <div className="relative aspect-square bg-muted rounded-2xl overflow-hidden shadow-2xl border-8 border-background dark:border-card flex items-center justify-center bg-gradient-to-br from-accent/5 to-accent/10">
-              <div className="text-center p-8">
-                <Users className="h-16 w-16 text-accent/40 mx-auto mb-4" />
-                <span className="text-muted-foreground font-medium">Temple Deities / Community Image</span>
+            <div className="relative aspect-square bg-muted rounded-2xl overflow-hidden shadow-2xl border-8 border-background dark:border-card group">
+              <img 
+                src={deitiesImage} 
+                alt="Sri Sri Nitai Gaurasundara Deities" 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+                <p className="text-white p-6 font-medium">Sri Sri Nitai Gaurasundara</p>
               </div>
             </div>
           </div>
