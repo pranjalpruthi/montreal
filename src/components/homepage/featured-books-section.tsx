@@ -131,7 +131,7 @@ All Glories to Śrīla Prabhupāda!
 
 I would like to order the book "Why Worship Only Krsna?".
 My Temple Site Order Number is: `,
-  price: "$5 CAD",
+  price: "$30 CAD",
   shippingNote: "excluding shipping charges",
   quote: {
     text: "Abandon all varieties of religion and just surrender unto Me. I shall deliver you from all sinful reactions. Do not fear.",
