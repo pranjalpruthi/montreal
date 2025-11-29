@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { Facebook, Instagram, Youtube, Mail } from 'lucide-react'
+import { Facebook, Instagram, Youtube, Mail, MapPin, Calendar } from 'lucide-react'
+import { TypingText } from '@/components/animate-ui/text/typing'
+import LightRays from '@/components/animate-ui/backgrounds/light-rays'
+import spTeaching from '@/assets/sp-teaching.png'
+
 
 const quotes = [
   {
@@ -96,19 +99,43 @@ const quotes = [
 
 export function Hero() {
   const [currentIndex, setCurrentIndex] = useState(() => Math.floor(Math.random() * quotes.length))
+  const [currentDate, setCurrentDate] = useState('')
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % quotes.length)
-    }, 6000)
+    }, 10000)
 
     return () => clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    const date = new Date()
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    setCurrentDate(date.toLocaleDateString('en-US', options))
   }, [])
 
   const quote = quotes[currentIndex]
 
   return (
-    <section id="main-content" className="relative min-h-[90vh] flex items-center justify-center bg-background py-32 overflow-visible">
+    <section id="main-content" className="relative min-h-[90vh] flex items-center bg-background py-20 lg:py-32 overflow-hidden">
+
+      {/* Light Rays - Dark Mode Only */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none hidden dark:block z-0">
+        <LightRays
+          raysOrigin="top-center"
+          raysColor="#FFD700"
+          raysSpeed={1.5}
+          lightSpread={0.8}
+          rayLength={1.2}
+          followMouse={true}
+          mouseInfluence={0.1}
+          noiseAmount={0.1}
+          distortion={0.05}
+          className="opacity-40"
+        />
+      </div>
+
       {/* Abstract Background Pattern */}
       <div className="absolute inset-0 w-full h-full bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-20 dark:opacity-10" />
       
@@ -116,81 +143,160 @@ export function Hero() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-accent/20 blur-[120px] rounded-full pointer-events-none opacity-0 dark:opacity-30 mix-blend-screen" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10 max-w-7xl">
-        <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <div className="inline-flex items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-sm text-accent mb-4 backdrop-blur-sm">
-            <span className="flex h-2 w-2 rounded-full bg-accent mr-2 animate-pulse"></span>
-            Welcome to Your Spiritual Home
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          
+          {/* Left Column: Content & Buttons */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 md:space-y-8 order-2 lg:order-1">
+            <div className="inline-flex items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1 text-sm text-accent backdrop-blur-sm">
+              <span className="flex h-2 w-2 rounded-full bg-accent mr-2 animate-pulse"></span>
+              {currentDate}
+            </div>
+
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              International <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF69B4] via-[#FFD700] to-[#FFA500]">
+                Sri Krishna Mandir
+              </span> Montreal
+            </h1>
+
+            <div className="space-y-4 max-w-2xl lg:max-w-none">
+              <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                Dedicated to the teachings of His Divine Grace <br className="hidden md:block" />
+                <span className="font-semibold text-foreground">A.C. Bhaktivedanta Swami Prabhupāda</span>
+              </p>
+              
+              <p className="text-sm md:text-base text-muted-foreground/80">
+                Temple President: <span className="font-medium text-foreground">HG Nimai Nitai Prabhu</span>
+              </p>
+            </div>
+
+            <div className="flex flex-row gap-2 sm:gap-4 pt-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto lg:mx-0">
+              <Button asChild size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group">
+                <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:animate-bounce" />
+                  Visit Temple
+                </a>
+              </Button>
+              <Button asChild variant="secondary" size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group">
+                <a href="#programs" className="flex items-center justify-center gap-2">
+                  <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:rotate-12" />
+                  Join Program
+                </a>
+              </Button>
+            </div>
+
+            {/* Social Icons - Floating Dock Style */}
+            <div className="pt-4 flex justify-center lg:justify-start w-full">
+              <div className="flex items-center gap-3 p-2 rounded-full bg-background/40 backdrop-blur-md border border-border/40 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                <SocialLink href="https://www.facebook.com/profile.php?id=61580147803495" icon={<Facebook className="h-5 w-5" />} label="Facebook" color="text-[#1877F2] bg-[#1877F2]/10 hover:bg-[#1877F2]/20" />
+                <SocialLink href="https://www.instagram.com/iskmmontreal/" icon={<Instagram className="h-5 w-5" />} label="Instagram" color="text-[#E4405F] bg-[#E4405F]/10 hover:bg-[#E4405F]/20" />
+                <SocialLink href="https://www.youtube.com/@iskmfrancais" icon={<Youtube className="h-5 w-5" />} label="YouTube" color="text-[#FF0000] bg-[#FF0000]/10 hover:bg-[#FF0000]/20" />
+                <SocialLink href="mailto:admin@iskm.ca" icon={<Mail className="h-5 w-5" />} label="Email" color="text-foreground bg-foreground/5 hover:bg-foreground/10" />
+              </div>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-            International <br className="hidden md:block" />
-            <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">Sri Krishna Mandir</span> Montreal
-          </h1>
+          {/* Right Column: Quote "Paper" with Glance View - Desktop Only */}
+          <div className="hidden lg:flex justify-end order-2 w-full">
+            <div className="relative w-full max-w-md aspect-[3/4] bg-[#fdfbf7] dark:bg-[#1c1c1c] rounded-sm shadow-2xl rotate-1 hover:rotate-0 transition-transform duration-500 ease-out border border-border/50 p-12 flex flex-col items-center justify-center text-center overflow-hidden group">
+              
+              {/* Glance View Image - Watermark style */}
+              <div className="absolute inset-0 z-0">
+                <img 
+                  src={spTeaching} 
+                  alt="Srila Prabhupada" 
+                  className="w-full h-full object-cover opacity-10 dark:opacity-20 grayscale sepia-[0.2] transition-transform duration-700 group-hover:scale-105" 
+                />
+              </div>
 
-          <div className="space-y-4">
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Dedicated to the teachings of His Divine Grace <br className="hidden md:block" />
-              <span className="font-semibold text-foreground">A.C. Bhaktivedanta Swami Prabhupāda</span>
-            </p>
-            
-            <p className="text-sm md:text-base text-muted-foreground/80">
-              Temple President: <span className="font-medium text-foreground">HG Nimai Nitai Prabhu</span>
-            </p>
+              {/* Paper texture/lines effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_29px,rgba(0,0,0,0.05)_30px)] bg-[size:100%_30px] pointer-events-none z-0" />
+              <div className="absolute left-8 top-0 bottom-0 w-[2px] bg-red-500/20 pointer-events-none z-0" /> {/* Margin line */}
+              
+              {/* Pin or Tape effect */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-yellow-200/80 dark:bg-yellow-900/30 rotate-[-2deg] shadow-sm backdrop-blur-[1px] z-10" />
+
+              <div className="relative z-10 flex flex-col items-center justify-center h-full">
+                <div key={currentIndex} className="space-y-6">
+                  <div className="text-4xl text-primary/20 font-serif leading-none">“</div>
+                  <p className="text-2xl font-serif leading-relaxed text-foreground/90 italic">
+                    <TypingText 
+                      text={quote.text}
+                      duration={30}
+                      cursor={true}
+                    />
+                  </p>
+                  {quote.source && (
+                    <div className="mt-6 w-full">
+                      <div className="w-16 h-px bg-border/40 mx-auto mb-4" />
+                      <span className="block text-sm uppercase tracking-widest font-sans text-muted-foreground/80 opacity-0 animate-[fadeIn_0.5s_ease-in_1.5s_forwards]">
+                        {quote.source}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="p-6 bg-white/60 dark:bg-black/20 backdrop-blur-sm rounded-2xl border border-accent/10 shadow-sm max-w-xl mx-auto transition-colors min-h-[140px] flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="flex flex-col items-center text-center w-full"
-              >
-                <p className="text-lg md:text-xl italic font-serif mb-2 leading-relaxed text-foreground/80">
-                  "{quote.text}"
-                </p>
-                {quote.source && (
-                  <span className="text-xs uppercase tracking-widest font-sans mt-1 text-muted-foreground/80">
+        </div>
+
+        {/* Mobile Quote Slider - Bottom of Hero */}
+        <div className="lg:hidden mt-16 w-full max-w-lg mx-auto">
+          <div className="relative bg-background/40 backdrop-blur-md border border-border/50 rounded-xl p-6 shadow-lg overflow-hidden">
+             {/* Background Image Watermark */}
+             <div className="absolute inset-0 z-0 opacity-10 dark:opacity-20 pointer-events-none">
+                <img 
+                  src={spTeaching} 
+                  alt="Srila Prabhupada" 
+                  className="w-full h-full object-cover grayscale sepia-[0.2]" 
+                />
+              </div>
+              
+            <div className="relative z-10 flex flex-col items-center text-center space-y-3">
+              <div className="text-2xl text-primary/40 font-serif leading-none">“</div>
+              <p className="text-lg font-serif leading-relaxed text-foreground/90 italic min-h-[80px] flex items-center justify-center">
+                <TypingText 
+                  text={quote.text}
+                  duration={20}
+                  cursor={true}
+                />
+              </p>
+              {quote.source && (
+                <div className="mt-3 w-full">
+                  <div className="w-12 h-px bg-border/30 mx-auto mb-2" />
+                  <span className="block text-xs uppercase tracking-widest font-sans text-muted-foreground/90">
                     {quote.source}
                   </span>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-4">
-            <Button asChild size="lg" className="h-12 px-8 text-base bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:scale-105 hover:shadow-primary/40">
-              <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
-                Visit Temple
-              </a>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-12 px-8 text-base border-accent/20 hover:bg-accent/5 hover:text-accent backdrop-blur-sm bg-background/50">
-              <a href="#programs">Join a Program</a>
-            </Button>
-          </div>
-
-          <div className="flex items-center justify-center gap-6 pt-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
-            <a href="https://www.facebook.com/profile.php?id=61580147803495" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-[#1877F2] transition-colors transform hover:scale-110">
-              <Facebook className="h-6 w-6" />
-              <span className="sr-only">Facebook</span>
-            </a>
-            <a href="https://www.instagram.com/iskmmontreal/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-[#E4405F] transition-colors transform hover:scale-110">
-              <Instagram className="h-6 w-6" />
-              <span className="sr-only">Instagram</span>
-            </a>
-            <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-[#FF0000] transition-colors transform hover:scale-110">
-              <Youtube className="h-6 w-6" />
-              <span className="sr-only">YouTube</span>
-            </a>
-             <a href="mailto:admin@iskm.ca" className="text-muted-foreground hover:text-foreground transition-colors transform hover:scale-110">
-              <Mail className="h-6 w-6" />
-              <span className="sr-only">Email</span>
-            </a>
+                </div>
+              )}
+            </div>
+            
+            {/* Progress Bar */}
+            <div className="absolute bottom-0 left-0 h-1 bg-primary/20 w-full">
+              <div 
+                key={currentIndex}
+                className="h-full bg-primary/50 animate-[progress_10s_linear]"
+              />
+            </div>
           </div>
         </div>
+
       </div>
     </section>
+  )
+}
+
+function SocialLink({ href, icon, label, color }: { href: string; icon: React.ReactNode; label: string; color: string }) {
+  return (
+    <a 
+      href={href} 
+      target={href.startsWith('mailto') ? undefined : "_blank"} 
+      rel={href.startsWith('mailto') ? undefined : "noopener noreferrer"} 
+      className={`p-3 rounded-full text-muted-foreground transition-all duration-300 transform hover:scale-110 ${color}`}
+      aria-label={label}
+    >
+      {icon}
+    </a>
   )
 }

@@ -71,20 +71,20 @@ const ModeToggleComponent = ({ className }: ModeToggleProps) => {
         {/* Simplified Glow Effect (2 layers for performance) */}
         {/* Outer Glow Layer */}
         <div className={`
-          absolute -inset-5 rounded-full blur-lg
-          animate-pulse
+          absolute -inset-5 rounded-full blur-xl
+          animate-[pulse_4s_ease-in-out_infinite]
           ${theme === "dark"
-            ? "bg-amber-400/20" // Adjusted color/opacity
-            : "bg-yellow-200/30" // Adjusted color/opacity
+            ? "bg-amber-400/10" // Adjusted color/opacity
+            : "bg-yellow-200/20" // Adjusted color/opacity
           }
         `} />
         {/* Inner Glow Layer */}
         <div className={`
-          absolute -inset-3 rounded-full blur-lg
-          animate-pulse
+          absolute -inset-3 rounded-full blur-2xl
+          animate-[pulse_3s_ease-in-out_infinite]
           ${theme === "dark"
-            ? "bg-amber-300/40" // Adjusted color/opacity
-            : "bg-yellow-100/50" // Adjusted color/opacity
+            ? "bg-amber-300/20" // Adjusted color/opacity
+            : "bg-yellow-100/30" // Adjusted color/opacity
           }
         `} />
       </div>
@@ -98,7 +98,7 @@ const ModeToggleComponent = ({ className }: ModeToggleProps) => {
         className={`
           rounded-full p-0 overflow-hidden
           transition-all duration-300
-          w-16 h-16 md:w-20 md:h-20
+          w-10 h-10 md:w-20 md:h-20
           active:scale-95 relative z-40
           bg-transparent border-0
         `}

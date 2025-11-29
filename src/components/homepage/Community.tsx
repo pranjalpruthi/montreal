@@ -46,8 +46,8 @@ export function Community() {
                   </div>
                   <div>
                     <p className="font-semibold text-lg text-white dark:text-foreground">ISKM Montreal</p>
-                    <p className="text-white/70 dark:text-muted-foreground">123 Temple Street (Placeholder)</p>
-                    <p className="text-white/70 dark:text-muted-foreground">Montreal, QC, Canada</p>
+                    <p className="text-white/70 dark:text-muted-foreground">4625 Rue Clark</p>
+                    <p className="text-white/70 dark:text-muted-foreground">Montréal, QC H2T 2T3, Canada</p>
                     <a
                       href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6"
                       target="_blank"

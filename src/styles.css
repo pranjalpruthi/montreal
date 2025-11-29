@@ -59,7 +59,7 @@ code {
   /* BORDER: Light Blue-Gray */
   --border: oklch(0.92 0.02 273.2);
   --input: oklch(0.92 0.02 273.2);
-  
+
   /* RING: Matches Primary Pink */
   --ring: oklch(0.623 0.262 341.2);
 
@@ -85,7 +85,7 @@ code {
   --font-serif: Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: 1.3rem;
-  
+
   /* Shadows retained */
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -155,7 +155,7 @@ code {
   --sidebar-accent-foreground: oklch(0.98 0 0);
   --sidebar-border: oklch(0.25 0.05 273.2);
   --sidebar-ring: oklch(0.65 0.26 341.2);
-  
+
   /* Shadows retained */
   --shadow-x: 0px;
   --shadow-y: 2px;
@@ -224,6 +224,48 @@ code {
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
+  --animate-aurora:
+    aurora 8s ease-in-out infinite alternate;
+  @keyframes aurora {
+  0% {
+    background-position:
+    0% 50%;
+    transform:
+    rotate(-5deg) scale(0.9);
+    }
+  25% {
+    background-position:
+    50% 100%;
+    transform:
+    rotate(5deg) scale(1.1);
+    }
+  50% {
+    background-position:
+    100% 50%;
+    transform:
+    rotate(-3deg) scale(0.95);
+    }
+  75% {
+    background-position:
+    50% 0%;
+    transform:
+    rotate(3deg) scale(1.05);
+    }
+  100% {
+    background-position:
+    0% 50%;
+    transform:
+    rotate(-5deg) scale(0.9);
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
 
 @layer base {

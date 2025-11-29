@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { CopyButton } from '@/components/animate-ui/buttons/copy';
 import { HighlightText } from '@/components/animate-ui/text/highlight';
 
+import Aurora from '@/components/homepage/Aurora';
+
 export const Route = createFileRoute('/legal/returns')({
   component: RefundAndCancellationPolicy,
 });
@@ -27,8 +29,19 @@ const SubSection = ({ title, children }: { title: string; children: React.ReactN
 
 function RefundAndCancellationPolicy() {
   return (
-    <div className="container mx-auto px-4 py-12 pt-24">
-      <header className="text-center mb-12">
+    <div className="relative min-h-screen w-full">
+      {/* Aurora Background */}
+      <div className="fixed inset-0 w-full h-full pointer-events-none opacity-20 dark:opacity-10 -z-10">
+        <Aurora
+          colorStops={["#3A29FF", "#FF94B4", "#FF3232"]}
+          blend={0.5}
+          amplitude={1.0}
+          speed={0.5}
+        />
+      </div>
+      
+      <div className="container mx-auto px-4 py-12 pt-24">
+        <header className="text-center mb-12">
         <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -253,6 +266,7 @@ function RefundAndCancellationPolicy() {
           </div>
         </Section>
       </main>
+      </div>
     </div>
   );
 }
