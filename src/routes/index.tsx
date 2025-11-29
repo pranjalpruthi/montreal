@@ -5,6 +5,7 @@ import { Programs } from '@/components/homepage/Programs'
 import { Resources } from '@/components/homepage/Resources'
 import { Community } from '@/components/homepage/Community'
 import { FeaturedSection } from '@/components/homepage/featured-section'
+import { FeaturedBooksSection } from '@/components/homepage/featured-books-section'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -23,6 +24,7 @@ function Home() {
 
       <Hero />
       <FeaturedSection />
+      <FeaturedBooksSection />
       <About />
       <Programs />
       <Resources />
