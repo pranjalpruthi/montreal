@@ -43,16 +43,27 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   shellComponent: RootDocument,
 })
 
+import { ThemeProvider } from '@/components/theme-provider'
+
+// ... imports
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <title>ISKM Montreal | Hare Krishna Temple</title>
+        <meta
+          name="description"
+          content="Welcome to ISKM Montreal. Join us for spiritual programs, kirtan, and prasadam. Dedicated to the teachings of Srila Prabhupada."
+        />
       </head>
       <body>
-        <MainLayout>
-          {children}
-        </MainLayout>
+        <ThemeProvider defaultTheme="light" storageKey="pondi-ui-theme">
+          <MainLayout>
+            {children}
+          </MainLayout>
+        </ThemeProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',
