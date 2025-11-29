@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { useState, useEffect } from 'react'
-import { Facebook, Instagram, Youtube, Mail, MapPin, Calendar } from 'lucide-react'
+import { Facebook, Instagram, Youtube, Mail, MapPin, Calendar, ChevronDown } from 'lucide-react'
 import { TypingText } from '@/components/animate-ui/text/typing'
 import LightRays from '@/components/animate-ui/backgrounds/light-rays'
 import spTeaching from '@/assets/sp-teaching.png'
@@ -139,6 +139,9 @@ export function Hero() {
       {/* Abstract Background Pattern */}
       <div className="absolute inset-0 w-full h-full bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-20 dark:opacity-10" />
       
+      {/* Light Mode Gradient Overlay */}
+      <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-orange-50/40 via-white/0 to-white/0 dark:hidden pointer-events-none" />
+      
       {/* Dark Mode Glow Effect */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-accent/20 blur-[120px] rounded-full pointer-events-none opacity-0 dark:opacity-30 mix-blend-screen" />
 
@@ -154,7 +157,7 @@ export function Hero() {
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
               International <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF69B4] via-[#FFD700] to-[#FFA500]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF1493] via-[#FFD700] to-[#FF8C00] animate-gradient-x bg-[length:200%_auto]">
                 Sri Krishna Mandir
               </span> Montreal
             </h1>
@@ -171,13 +174,13 @@ export function Hero() {
             </div>
 
             <div className="flex flex-row gap-2 sm:gap-4 pt-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto lg:mx-0">
-              <Button asChild size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group">
+              <Button asChild size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl">
                 <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                   <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:animate-bounce" />
                   Visit Temple
                 </a>
               </Button>
-              <Button asChild variant="secondary" size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group">
+              <Button asChild variant="secondary" size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group hover:scale-105 transition-transform duration-300 shadow-md hover:shadow-lg">
                 <a href="#programs" className="flex items-center justify-center gap-2">
                   <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:rotate-12" />
                   Join Program
@@ -188,17 +191,17 @@ export function Hero() {
             {/* Social Icons - Floating Dock Style */}
             <div className="pt-4 flex justify-center lg:justify-start w-full">
               <div className="flex items-center gap-3 p-2 rounded-full bg-background/40 backdrop-blur-md border border-border/40 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                <SocialLink href="https://www.facebook.com/profile.php?id=61580147803495" icon={<Facebook className="h-5 w-5" />} label="Facebook" color="text-[#1877F2] bg-[#1877F2]/10 hover:bg-[#1877F2]/20" />
-                <SocialLink href="https://www.instagram.com/iskmmontreal/" icon={<Instagram className="h-5 w-5" />} label="Instagram" color="text-[#E4405F] bg-[#E4405F]/10 hover:bg-[#E4405F]/20" />
-                <SocialLink href="https://www.youtube.com/@iskmfrancais" icon={<Youtube className="h-5 w-5" />} label="YouTube" color="text-[#FF0000] bg-[#FF0000]/10 hover:bg-[#FF0000]/20" />
-                <SocialLink href="mailto:admin@iskm.ca" icon={<Mail className="h-5 w-5" />} label="Email" color="text-foreground bg-foreground/5 hover:bg-foreground/10" />
+                <SocialLink href="https://www.facebook.com/profile.php?id=61580147803495" icon={<Facebook className="h-5 w-5" />} label="Facebook" color="border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2]/10" />
+                <SocialLink href="https://www.instagram.com/iskmmontreal/" icon={<Instagram className="h-5 w-5" />} label="Instagram" color="border-[#E4405F] text-[#E4405F] hover:bg-[#E4405F]/10" />
+                <SocialLink href="https://www.youtube.com/@iskmfrancais" icon={<Youtube className="h-5 w-5" />} label="YouTube" color="border-[#FF0000] text-[#FF0000] hover:bg-[#FF0000]/10" />
+                <SocialLink href="mailto:admin@iskm.ca" icon={<Mail className="h-5 w-5" />} label="Email" color="border-accent text-accent hover:bg-accent/10" />
               </div>
             </div>
           </div>
 
           {/* Right Column: Quote "Paper" with Glance View - Desktop Only */}
           <div className="hidden lg:flex justify-end order-2 w-full">
-            <div className="relative w-full max-w-md aspect-[3/4] bg-[#fdfbf7] dark:bg-[#1c1c1c] rounded-sm shadow-2xl rotate-1 hover:rotate-0 transition-transform duration-500 ease-out border border-border/50 p-12 flex flex-col items-center justify-center text-center overflow-hidden group">
+            <div className="relative w-full max-w-md aspect-[3/4] bg-[#fdfbf7] dark:bg-[#1c1c1c] rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] rotate-1 hover:rotate-0 transition-transform duration-500 ease-out border border-border/20 p-12 flex flex-col items-center justify-center text-center overflow-hidden group">
               
               {/* Glance View Image - Watermark style */}
               <div className="absolute inset-0 z-0">
@@ -283,6 +286,12 @@ export function Hero() {
         </div>
 
       </div>
+
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:flex flex-col items-center gap-2 opacity-50 hover:opacity-100 transition-opacity cursor-pointer z-20" onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
+        <span className="text-xs uppercase tracking-widest text-muted-foreground">Scroll</span>
+        <ChevronDown className="w-6 h-6 text-muted-foreground" />
+      </div>
     </section>
   )
 }
@@ -293,7 +302,7 @@ function SocialLink({ href, icon, label, color }: { href: string; icon: React.Re
       href={href} 
       target={href.startsWith('mailto') ? undefined : "_blank"} 
       rel={href.startsWith('mailto') ? undefined : "noopener noreferrer"} 
-      className={`p-3 rounded-full text-muted-foreground transition-all duration-300 transform hover:scale-110 ${color}`}
+      className={`p-3 rounded-full border-2 transition-all duration-300 transform hover:scale-110 ${color}`}
       aria-label={label}
     >
       {icon}

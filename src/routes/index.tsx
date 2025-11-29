@@ -4,7 +4,6 @@ import { About } from '@/components/homepage/About'
 import { Programs } from '@/components/homepage/Programs'
 import { Resources } from '@/components/homepage/Resources'
 import { Community } from '@/components/homepage/Community'
-import { BlockQuote } from '@/components/ui/block-quote'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -22,41 +21,9 @@ function Home() {
       </a>
 
       <Hero />
-      
-      <div className="container mx-auto px-4">
-        <BlockQuote 
-          quote="A Krishna temple is a spiritual school where anyone can come, take darshan, and learn the science of God." 
-          author="Srila Prabhupada" 
-        />
-      </div>
-
       <About />
-
-      <div className="container mx-auto px-4">
-        <BlockQuote 
-          quote="In the noisy heart of the city, the temple stands as an oasis of peace and spiritual wisdom." 
-          author="Srila Prabhupada" 
-        />
-      </div>
-
       <Programs />
-
-      <div className="container mx-auto px-4">
-        <BlockQuote 
-          quote="By stepping into the temple, we step out of anxiety and into Krishna’s protective shelter." 
-          author="Srila Prabhupada" 
-        />
-      </div>
-
       <Resources />
-
-      <div className="container mx-auto px-4">
-        <BlockQuote 
-          quote="Temple worship purifies our work, wealth, and relationships by reconnecting everything with Krishna." 
-          author="Srila Prabhupada" 
-        />
-      </div>
-
       <Community />
     </>
   )
