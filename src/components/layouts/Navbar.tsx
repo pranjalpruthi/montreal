@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
+import { Youtube } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
@@ -68,7 +69,12 @@ export function Navbar() {
 
                         {/* Actions (Right) */}
                         <div className="flex items-center gap-2">
-                            <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md">
+                            <Button asChild variant="secondary" size="icon" className="rounded-full bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-900/50 shadow-sm">
+                                <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
+                                    <Youtube className="h-5 w-5" />
+                                </a>
+                            </Button>
+                            <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105">
                                 <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
                                     Visit
                                 </a>
@@ -83,18 +89,27 @@ export function Navbar() {
 
             {/* Mobile Top Bar - Simple header for mobile */}
             <div className="fixed top-0 left-0 right-0 z-40 md:hidden bg-background/80 backdrop-blur-md border-b border-border">
-                <div className="flex items-center justify-between px-4 py-1">
-                    <div className="flex items-center gap-2">
-                        <ModeToggle />
-                        <span className="font-serif font-bold text-base text-foreground">
+                <div className="flex items-center justify-between px-4 py-2">
+                    <div className="flex items-center gap-3">
+                        <div className="scale-125 origin-left">
+                            <ModeToggle />
+                        </div>
+                        <span className="font-serif font-bold text-xl text-foreground ml-2">
                             ISKM <span className="text-primary">Montreal</span>
                         </span>
                     </div>
-                    <Button asChild size="sm" variant="ghost" className="rounded-full">
-                        <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
-                            Visit
-                        </a>
-                    </Button>
+                    <div className="flex items-center gap-2">
+                        <Button asChild size="icon" className="rounded-full h-9 w-9 bg-red-600 text-white hover:bg-red-700 shadow-sm border border-red-700/20">
+                            <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
+                                <Youtube className="h-4 w-4" />
+                            </a>
+                        </Button>
+                        <Button asChild size="sm" className="rounded-full shadow-sm">
+                            <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
+                                Visit
+                            </a>
+                        </Button>
+                    </div>
                 </div>
             </div>
         </>

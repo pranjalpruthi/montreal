@@ -1,101 +1,179 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Calendar, Clock, Users } from 'lucide-react'
+"use client";
+
+import { useRef } from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Clock, Music, Users, Sparkles, ArrowRight } from 'lucide-react'
+import { gsap } from 'gsap'
+import { useGSAP } from '@gsap/react'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export function Programs() {
-  return (
-    <section id="programs" className="py-16 md:py-24 bg-background relative overflow-hidden">
-      {/* Decorative elements - Enhanced for Dark Mode */}
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-primary/10 blur-[120px] rounded-full pointer-events-none dark:bg-primary/20" />
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-accent/10 blur-[120px] rounded-full pointer-events-none dark:bg-accent/20" />
-      
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--color-border)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none opacity-[0.03] dark:opacity-[0.05]" />
+  const containerRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
+  const cardsRef = useRef<HTMLDivElement>(null)
 
+  useGSAP(() => {
+    // Header Animation
+    gsap.from(headerRef.current?.children || [], {
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.2,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: headerRef.current,
+        start: 'top 80%',
+        toggleActions: 'play none none reverse'
+      }
+    })
+
+    // Cards Animation
+    const cards = cardsRef.current?.children
+    if (cards) {
+      gsap.from(cards, {
+        y: 50,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: cardsRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse'
+        }
+      })
+    }
+  }, { scope: containerRef })
+
+  return (
+    <section id="programs" ref={containerRef} className="py-20 md:py-32 bg-background relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent/5 blur-[100px] rounded-full pointer-events-none" />
+      
       <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16 space-y-4">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground drop-shadow-sm">Programs & Schedule</h2>
-          <p className="text-base md:text-lg text-muted-foreground">
-            Join us for daily worship, weekly classes, and joyful festivals. Everyone is welcome!
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+            Programs & Schedule
+          </h2>
+          <p className="text-lg text-muted-foreground">
+            Immerse yourself in daily devotion, community gatherings, and joyous celebrations.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
-          {/* Daily Schedule */}
-          <Card className="h-full border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 group dark:bg-card/40 dark:backdrop-blur-md dark:border-white/10 hover:-translate-y-1 flex flex-col">
-            <CardHeader className="bg-muted/50 dark:bg-white/5 rounded-t-xl pb-6 md:pb-8 border-b border-border/50 dark:border-white/5">
-              <div className="h-12 w-12 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-accent transition-colors duration-300 shadow-inner">
-                <Clock className="h-6 w-6 text-accent group-hover:text-white transition-colors duration-300" />
-              </div>
-              <CardTitle className="text-xl">Daily Worship</CardTitle>
-              <CardDescription>Morning & Evening Programs</CardDescription>
-            </CardHeader>
-            <CardContent className="bg-muted/30 dark:bg-transparent rounded-b-xl pt-6 flex-1">
-              <ul className="space-y-3 md:space-y-4">
-                {[
-                  { time: '4:30 AM', event: 'Mangala Arati' },
-                  { time: '7:15 AM', event: 'Guru Puja' },
-                  { time: '7:45 AM', event: 'Bhagavatam Class' },
-                  { time: '6:30 PM', event: 'Gaura Arati' },
-                  { time: '7:00 PM', event: 'Bhagavad-gita Class' },
-                ].map((item, i) => (
-                  <li key={i} className="flex justify-between items-center text-sm border-b border-dashed border-border/50 dark:border-white/10 last:border-0 pb-2 last:pb-0 group/item hover:bg-accent/5 dark:hover:bg-white/5 p-2 rounded-lg transition-colors">
-                    <span className="font-medium text-foreground group-hover/item:text-accent transition-colors text-base">{item.event}</span>
-                    <span className="text-primary bg-primary/10 dark:bg-primary/20 px-3 py-1 rounded-md text-sm md:text-base font-bold font-mono whitespace-nowrap ml-2 border border-primary/20 shadow-sm">{item.time}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Daily Worship - Tall Card */}
+          <div className="md:col-span-1 md:row-span-2 h-full">
+            <Card className="h-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300 overflow-hidden group">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent" />
+              <CardHeader>
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Clock className="w-6 h-6 text-primary" />
+                </div>
+                <CardTitle className="text-2xl">Daily Worship</CardTitle>
+                <p className="text-muted-foreground">Morning & Evening Programs</p>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="space-y-4">
+                  {[
+                    { time: '4:30 AM', event: 'Mangala Arati' },
+                    { time: '7:15 AM', event: 'Guru Puja' },
+                    { time: '7:45 AM', event: 'Bhagavatam Class' },
+                    { time: '6:30 PM', event: 'Gaura Arati' },
+                    { time: '7:00 PM', event: 'Bhagavad-gita Class' },
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 rounded-lg hover:bg-accent/5 transition-colors border border-transparent hover:border-border/50">
+                      <span className="font-medium">{item.event}</span>
+                      <Badge variant="secondary" className="font-mono text-xs">{item.time}</Badge>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-4 border-t border-border/50">
+                  <p className="text-sm text-muted-foreground italic">
+                    "The early morning hours are the best time for spiritual practice."
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-          {/* Weekly Programs - Featured Card */}
-          <Card className="h-full border-accent/50 shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden dark:bg-card/60 dark:backdrop-blur-md dark:border-accent/30 md:scale-105 z-10 flex flex-col">
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-accent to-primary"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent opacity-50 pointer-events-none"></div>
-            
-            <CardHeader className="bg-accent/5 dark:bg-accent/10 rounded-t-xl pb-6 md:pb-8 border-b border-accent/10">
-              <div className="h-14 w-14 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-accent transition-colors duration-300 shadow-lg shadow-accent/20">
-                <Users className="h-7 w-7 text-accent group-hover:text-white transition-colors duration-300" />
-              </div>
-              <CardTitle className="text-2xl text-accent dark:text-accent-foreground">Weekly Programs</CardTitle>
-              <CardDescription className="text-foreground/80">Community Gatherings</CardDescription>
-            </CardHeader>
-            <CardContent className="bg-accent/5 dark:bg-transparent rounded-b-xl space-y-4 md:space-y-6 pt-6 flex-1">
-              <div className="bg-background dark:bg-black/40 p-4 md:p-5 rounded-xl shadow-sm border border-accent/10 hover:border-accent/30 transition-colors group/card">
-                <h4 className="font-bold text-foreground mb-2 flex flex-wrap items-center gap-2 text-base md:text-lg">
-                  Sunday Feast <span className="text-[10px] uppercase tracking-wider font-bold bg-accent text-white px-2 py-0.5 rounded-full shadow-sm">Weekly</span>
-                </h4>
-                <p className="text-sm text-accent font-medium mb-2 flex items-center gap-1">
-                  <Clock className="h-3 w-3" /> Every Sunday at 5:00 PM
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">Kirtan, spiritual discourse, and a free vegetarian feast for everyone.</p>
-              </div>
-              <div className="bg-background dark:bg-black/40 p-4 md:p-5 rounded-xl shadow-sm border border-accent/10 hover:border-accent/30 transition-colors">
-                <h4 className="font-bold text-foreground mb-2 text-base md:text-lg">Friday Harinam</h4>
-                <p className="text-sm text-foreground/80">Join us for outdoor chanting in the city streets.</p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Weekly Programs - Wide Card */}
+          <div className="md:col-span-2">
+            <Card className="h-full border-border/50 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm hover:shadow-lg transition-all duration-300 overflow-hidden group relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <CardTitle className="text-2xl flex items-center gap-2">
+                      <Users className="w-6 h-6 text-accent" />
+                      Weekly Gatherings
+                    </CardTitle>
+                    <p className="text-muted-foreground">Connect with the community</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="grid md:grid-cols-2 gap-6 relative z-10">
+                <div className="p-5 rounded-xl bg-background/50 border border-border/50 hover:border-accent/30 transition-colors group/sunday">
+                  <div className="flex justify-between items-start mb-3">
+                    <h4 className="font-bold text-lg group-hover/sunday:text-accent transition-colors">Sunday Feast</h4>
+                    <Badge className="bg-accent text-white hover:bg-accent/90">Weekly</Badge>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                    <Clock className="w-4 h-4" />
+                    <span>Every Sunday @ 5:00 PM</span>
+                  </div>
+                  <p className="text-sm leading-relaxed">
+                    Kirtan, spiritual discourse, and a free vegetarian feast. The perfect way to recharge for the week.
+                  </p>
+                </div>
 
-          {/* Festivals */}
-          <Card className="h-full border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 group dark:bg-card/40 dark:backdrop-blur-md dark:border-white/10 hover:-translate-y-1 flex flex-col">
-            <CardHeader className="bg-muted/50 dark:bg-white/5 rounded-t-xl pb-6 md:pb-8 border-b border-border/50 dark:border-white/5">
-              <div className="h-12 w-12 bg-accent/10 rounded-full flex items-center justify-center mb-4 group-hover:bg-accent transition-colors duration-300 shadow-inner">
-                <Calendar className="h-6 w-6 text-accent group-hover:text-white transition-colors duration-300" />
-              </div>
-              <CardTitle className="text-xl">Major Festivals</CardTitle>
-              <CardDescription>Celebrations throughout the year</CardDescription>
-            </CardHeader>
-            <CardContent className="bg-muted/30 dark:bg-transparent rounded-b-xl pt-6 flex-1">
-              <ul className="space-y-3 md:space-y-4">
-                {['Janmashtami', 'Gaura Purnima', 'Govardhan Puja', 'Ratha Yatra', 'Rama Navami'].map((festival, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-muted-foreground group/item hover:text-foreground transition-colors p-2 rounded-lg hover:bg-accent/5 dark:hover:bg-white/5">
-                    <div className="h-2 w-2 rounded-full bg-accent/50 group-hover/item:bg-accent transition-colors shadow-sm shrink-0"></div>
-                    {festival}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
+                <div className="p-5 rounded-xl bg-background/50 border border-border/50 hover:border-accent/30 transition-colors group/friday">
+                  <div className="flex justify-between items-start mb-3">
+                    <h4 className="font-bold text-lg group-hover/friday:text-accent transition-colors">Friday Harinam</h4>
+                    <Badge variant="outline">Outreach</Badge>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                    <Music className="w-4 h-4" />
+                    <span>City Streets</span>
+                  </div>
+                  <p className="text-sm leading-relaxed">
+                    Join us for outdoor chanting and dancing in the city streets. Spread the joy of the Holy Names!
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Festivals - Wide Card (Bottom) */}
+          <div className="md:col-span-2">
+            <Card className="h-full border-border/50 bg-card/50 backdrop-blur-sm hover:border-primary/20 transition-all duration-300 overflow-hidden">
+              <CardHeader>
+                <CardTitle className="text-2xl flex items-center gap-2">
+                  <Sparkles className="w-6 h-6 text-yellow-500" />
+                  Major Festivals
+                </CardTitle>
+                <p className="text-muted-foreground">Celebrate with us throughout the year</p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {['Janmashtami', 'Gaura Purnima', 'Govardhan Puja', 'Ratha Yatra', 'Rama Navami', 'Diwali'].map((festival, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 rounded-lg bg-accent/5 hover:bg-accent/10 transition-colors group cursor-default">
+                      <div className="w-2 h-2 rounded-full bg-accent group-hover:scale-150 transition-transform" />
+                      <span className="font-medium text-sm">{festival}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-6 flex justify-end">
+                  <a href="#" className="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1 transition-colors">
+                    View Full Calendar <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </section>

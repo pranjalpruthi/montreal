@@ -156,10 +156,13 @@ export function Hero() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-tight drop-shadow-sm dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-              International <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF1493] via-[#FFD700] to-[#FF8C00] animate-gradient-x bg-[length:200%_auto]">
+              International <br className="block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF1493] via-[#FFD700] to-[#FF8C00] animate-gradient-x bg-[length:200%_auto] whitespace-nowrap">
                 Sri Krishna Mandir
-              </span> Montreal
+              </span>
+              <br className="block md:hidden" />
+              <span className="hidden md:inline"> </span>
+              Montreal
             </h1>
 
             <div className="space-y-4 max-w-2xl lg:max-w-none">
