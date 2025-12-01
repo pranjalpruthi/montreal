@@ -1,22 +1,42 @@
-import { Link } from '@tanstack/react-router'
-import { useState, useEffect } from 'react'
+import { Link, useLocation } from '@tanstack/react-router'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Youtube, Search } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
+import { motion, useScroll, useMotionValueEvent } from 'motion/react'
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
+    const [isVisible, setIsVisible] = useState(true)
+    const { scrollY } = useScroll()
+    const location = useLocation()
+    const isBlog = location.pathname.startsWith('/blog')
 
-    // Add scroll effect
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10)
+    useMotionValueEvent(scrollY, "change", (current) => {
+        const previous = scrollY.getPrevious() || 0
+        const diff = current - previous
+
+        // Determine if scrolled (for styling)
+        setIsScrolled(current > 20)
+
+        // Determine visibility with hysteresis (Only for blog)
+        if (!isBlog) {
+            setIsVisible(true)
+            return
         }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [])
+
+        if (current < 50) {
+            setIsVisible(true)
+        } else {
+            if (diff > 0) {
+                setIsVisible(false) // Scrolling down -> Hide
+            } else if (diff < -2) {
+                setIsVisible(true)  // Scroll up -> Show (more sensitive)
+            }
+        }
+    })
 
     const navLinks = [
         { to: '/', label: 'Home' },
@@ -28,71 +48,104 @@ export function Navbar() {
         { to: '/', hash: 'contact', label: 'Contact' },
     ]
 
-
-
     return (
         <>
             {/* Top Navbar - Desktop */}
-            <div className="fixed top-4 left-0 right-0 z-50 justify-center px-4 hidden md:flex">
-                <header
+            <motion.div 
+                variants={{
+                    visible: { y: 0 },
+                    hidden: { y: "-120%" },
+                }}
+                animate={isVisible ? "visible" : "hidden"}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                className={cn(
+                    "fixed z-50 left-0 right-0 hidden md:flex justify-center transition-all duration-300",
+                    isScrolled ? "top-4" : "top-0"
+                )}
+            >
+                <motion.header
+                    initial={false}
+                    animate={{
+                        width: isScrolled ? "85%" : "100%",
+                        borderRadius: isScrolled ? "9999px" : "0px",
+                        backgroundColor: isScrolled ? "rgba(var(--background), 1)" : "transparent",
+                        borderColor: isScrolled ? "rgba(255,255,255,0.1)" : "transparent",
+                        paddingTop: isScrolled ? "0.5rem" : "0.75rem",
+                        paddingBottom: isScrolled ? "0.5rem" : "0.75rem",
+                        paddingLeft: isScrolled ? "0.5rem" : "2rem",
+                        paddingRight: isScrolled ? "1.5rem" : "2rem",
+                    }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    style={{
+                        backdropFilter: isScrolled ? "blur(32px)" : "blur(0px)",
+                        borderStyle: "solid",
+                        borderWidth: isScrolled ? "1px" : "0px",
+                        maxWidth: "1400px",
+                    }}
                     className={cn(
-                        "w-full max-w-5xl rounded-full transition-all duration-300 overflow-visible",
-                        isScrolled 
-                            ? 'bg-background/80 backdrop-blur-md border border-border shadow-lg py-3' 
-                            : 'bg-background/50 backdrop-blur-sm border border-transparent py-5'
+                        "flex items-center justify-between shadow-sm",
+                        isScrolled ? "shadow-black/5 dark:shadow-white/5" : "shadow-none"
                     )}
                 >
-                    <div className="px-4 md:px-6 flex items-center justify-between relative">
-                        {/* Logo/Mode Toggle (Left) */}
-                        <div className="flex items-center gap-2">
-                            <div className="-my-6 z-50 relative">
-                                <ModeToggle className="scale-125 origin-left" />
-                            </div>
-                            <span className="font-serif font-bold text-lg text-foreground hidden sm:block ml-4">
-                                ISKM <span className="text-primary">Montreal</span>
-                            </span>
+                    {/* Logo/Mode Toggle (Left) */}
+                    <div className="flex items-center gap-4">
+                        <div className={cn(
+                            "relative z-50 flex items-center justify-center transition-all duration-300",
+                            isScrolled ? "scale-125 translate-y-2 -my-4" : "translate-y-1"
+                        )}>
+                            <ModeToggle className="origin-center" />
                         </div>
-
-                        {/* Desktop Navigation (Center) */}
-                        <nav className="hidden md:flex items-center gap-1 bg-muted/50 rounded-full px-2 py-1 border border-border/50">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.label}
-                                    to={link.to}
-                                    hash={link.hash}
-                                    className="text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-background transition-all px-4 py-1.5 rounded-full"
-                                    activeProps={{ className: "text-foreground bg-background shadow-sm" }}
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </nav>
-
-                        {/* Actions (Right) */}
-                        <div className="flex items-center gap-2">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="rounded-full text-muted-foreground hover:text-foreground"
-                                onClick={() => (window as any).openCommandMenu?.()}
-                                aria-label="Search"
-                            >
-                                <Search className="h-5 w-5" />
-                            </Button>
-                            <Button asChild variant="secondary" size="icon" className="rounded-full bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-900/50 shadow-sm">
-                                <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
-                                    <Youtube className="h-5 w-5" />
-                                </a>
-                            </Button>
-                            <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all hover:scale-105">
-                                <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
-                                    Visit
-                                </a>
-                            </Button>
-                        </div>
+                        <span className={cn(
+                            "font-serif font-bold text-xl transition-colors duration-300",
+                            isScrolled ? "text-foreground" : "text-foreground/90"
+                        )}>
+                            ISKM <span className="text-primary">Montreal</span>
+                        </span>
                     </div>
-                </header>
-            </div>
+
+                    {/* Desktop Navigation (Center) */}
+                    <nav className="hidden md:flex items-center gap-1">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.label}
+                                to={link.to}
+                                hash={link.hash}
+                                className={cn(
+                                    "text-sm font-medium transition-all px-4 py-2 rounded-full relative group",
+                                    "text-foreground/80 hover:text-foreground"
+                                )}
+                                activeProps={{ className: "text-foreground" }}
+                            >
+                                {link.label}
+                                <span className="absolute inset-0 rounded-full bg-foreground/5 scale-0 group-hover:scale-100 transition-transform duration-200" />
+                            </Link>
+                        ))}
+                    </nav>
+
+                    {/* Actions (Right) */}
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="rounded-full text-muted-foreground hover:text-foreground hover:bg-foreground/5"
+                            onClick={() => (window as any).openCommandMenu?.()}
+                            aria-label="Search"
+                        >
+                            <Search className="h-5 w-5" />
+                        </Button>
+                        <Button asChild variant="ghost" size="icon" className="rounded-full text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30">
+                            <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
+                                <Youtube className="h-5 w-5" />
+                            </a>
+                        </Button>
+                        <Button asChild size="sm" className="rounded-full px-6 font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
+                            <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
+                                Visit
+                            </a>
+                        </Button>
+                    </div>
+                </motion.header>
+            </motion.div>
 
             {/* Mobile Dock - Bottom Navigation */}
             <MobileDock />

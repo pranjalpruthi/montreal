@@ -98,7 +98,7 @@ const ModeToggleComponent = ({ className }: ModeToggleProps) => {
         className={`
           rounded-full p-0 overflow-hidden
           transition-all duration-300
-          w-10 h-10 md:w-20 md:h-20
+          w-10 h-10 md:w-14 md:h-14
           active:scale-95 relative z-40
           bg-transparent border-0
         `}
