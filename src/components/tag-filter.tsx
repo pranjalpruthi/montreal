@@ -1,6 +1,7 @@
 "use client";
 
-import { useNavigate, useLocation } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import {
   Drawer,
@@ -18,7 +19,6 @@ interface TagFilterProps {
 
 export function TagFilter({ tags, selectedTag, tagCounts }: TagFilterProps) {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleTagClick = (tag: string) => {
     navigate({
@@ -29,34 +29,47 @@ export function TagFilter({ tags, selectedTag, tagCounts }: TagFilterProps) {
     });
   };
 
-  const DesktopTagFilter = () => (
-    <div className="hidden md:flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <button
-          key={tag}
-          onClick={() => handleTagClick(tag)}
-          className={`h-8 flex items-center px-1 pl-3 rounded-lg cursor-pointer border text-sm transition-colors ${
-            selectedTag === tag
-              ? "border-primary bg-primary text-primary-foreground"
-              : "border-border hover:bg-muted"
-          }`}
-        >
-          <span>{tag}</span>
-          {tagCounts?.[tag] && (
-            <span
-              className={`ml-2 text-xs border rounded-md h-6 min-w-6 font-medium flex items-center justify-center ${
-                selectedTag === tag
-                  ? "border-border/40 dark:border-primary-foreground bg-background text-primary"
-                  : "border-border dark:border-border"
-              }`}
-            >
-              {tagCounts[tag]}
-            </span>
-          )}
-        </button>
-      ))}
-    </div>
-  );
+  const DesktopTagFilter = () => {
+    const [expanded, setExpanded] = useState(false);
+    const visibleTags = expanded ? tags : tags.slice(0, 10);
+
+    return (
+      <div className="hidden md:flex flex-wrap gap-2">
+        {visibleTags.map((tag) => (
+          <button
+            key={tag}
+            onClick={() => handleTagClick(tag)}
+            className={`h-8 flex items-center px-1 pl-3 rounded-lg cursor-pointer border text-sm transition-colors ${
+              selectedTag === tag
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border hover:bg-muted"
+            }`}
+          >
+            <span>{tag}</span>
+            {tagCounts?.[tag] && (
+              <span
+                className={`ml-2 text-xs border rounded-md h-6 min-w-6 font-medium flex items-center justify-center ${
+                  selectedTag === tag
+                    ? "border-border/40 dark:border-primary-foreground bg-background text-primary"
+                    : "border-border dark:border-border"
+                }`}
+              >
+                {tagCounts[tag]}
+              </span>
+            )}
+          </button>
+        ))}
+        {tags.length > 10 && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="h-8 flex items-center px-3 rounded-lg cursor-pointer border border-border hover:bg-muted text-sm transition-colors text-muted-foreground"
+          >
+            {expanded ? "Show less" : `Show more (${tags.length - 10})`}
+          </button>
+        )}
+      </div>
+    );
+  };
 
   const MobileTagFilter = () => (
     <Drawer>

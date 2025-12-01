@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { getBlogPosts, type BlogPost } from '@/lib/blog'
+import { getBlogPosts, getBlogPost, type BlogPost } from '@/lib/blog'
 import { useMDXComponents } from '@/components/mdx-components'
 import { MDXProvider } from '@mdx-js/react'
 import { useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ import { TableOfContents } from '@/components/table-of-contents'
 import { MobileTableOfContents } from '@/components/mobile-toc'
 import { PromoContent } from '@/components/promo-content'
 import { ReadMoreSection } from '@/components/read-more-section'
+import { ToggleGroup, ToggleGroupItem } from '@/components/animate-ui/radix/toggle-group'
 
 export const Route = createFileRoute('/blog/$slug')({
   component: BlogPostPage,
@@ -28,23 +29,35 @@ export const Route = createFileRoute('/blog/$slug')({
 })
 
 function BlogPostPage() {
-  const { post, posts, author } = Route.useLoaderData()
+  const { post: initialPost, posts, author } = Route.useLoaderData()
+  const [post, setPost] = useState<BlogPost>(initialPost)
   const [MDXContent, setMDXContent] = useState<any>(null)
+  const [language, setLanguage] = useState<'en' | 'fr'>('en')
 
   useEffect(() => {
     const loadContent = async () => {
-      const modules = import.meta.glob('/src/content/blog/en/*.mdx')
-      const path = `/src/content/blog/en/${post.slug}.mdx`
-      
-      if (modules[path]) {
-        const mod: any = await modules[path]()
-        setMDXContent(() => mod.default)
+      // Fetch the post for the selected language
+      const fetchedPost = await getBlogPost(initialPost.slug, language)
+      if (fetchedPost) {
+        setPost(fetchedPost)
+        
+        const modules = import.meta.glob('/src/content/blog/**/*.mdx')
+        const path = `/src/content/blog/${language}/${initialPost.slug}.mdx`
+        
+        if (modules[path]) {
+          const mod: any = await modules[path]()
+          setMDXContent(() => mod.default)
+        } else {
+            setMDXContent(null)
+        }
+      } else {
+          setMDXContent(null)
       }
     }
     loadContent()
-  }, [post.slug])
+  }, [initialPost.slug, language])
 
-  const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  const formattedDate = new Date(post.date).toLocaleDateString(language === 'fr' ? 'fr-CA' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -66,28 +79,49 @@ function BlogPostPage() {
 
       <div className="space-y-4 border-b border-border relative z-10 pt-24">
         <div className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
-          <div className="flex flex-wrap items-center gap-3 gap-y-5 text-sm text-muted-foreground">
-            <Button variant="outline" asChild className="h-6 w-6">
-              <Link to="/blog">
-                <ArrowLeft className="w-4 h-4" />
-                <span className="sr-only">Back to all articles</span>
-              </Link>
-            </Button>
-            {post.tags && post.tags.length > 0 && (
-              <div className="flex flex-wrap gap-3 text-muted-foreground">
-                {post.tags.map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="h-6 w-fit px-3 text-sm font-medium bg-muted text-muted-foreground rounded-md border flex items-center justify-center"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
-            <time className="font-medium text-muted-foreground">
-              {formattedDate}
-            </time>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3 gap-y-5 text-sm text-muted-foreground">
+              <Button variant="outline" asChild className="h-6 w-6">
+                <Link to="/blog">
+                  <ArrowLeft className="w-4 h-4" />
+                  <span className="sr-only">Back to all articles</span>
+                </Link>
+              </Button>
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-3 text-muted-foreground">
+                  {post.tags.map((tag: string) => (
+                    <span
+                      key={tag}
+                      className="h-6 w-fit px-3 text-sm font-medium bg-muted text-muted-foreground rounded-md border flex items-center justify-center"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <time className="font-medium text-muted-foreground">
+                {formattedDate}
+              </time>
+            </div>
+            <ToggleGroup
+              type="single"
+              value={language}
+              onValueChange={(v) => { if (v) setLanguage(v as 'en' | 'fr') }}
+              className="bg-muted/50 border border-border rounded-lg p-1"
+            >
+              <ToggleGroupItem
+                value="en"
+                className="px-3 py-1.5 text-sm text-muted-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-md hover:bg-muted transition-all duration-300"
+              >
+                English
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="fr"
+                className="px-3 py-1.5 text-sm text-muted-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-md hover:bg-muted transition-all duration-300"
+              >
+                Français
+              </ToggleGroupItem>
+            </ToggleGroup>
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter text-balance">
@@ -115,10 +149,14 @@ function BlogPostPage() {
           )}
           <div className="p-6 lg:p-10">
             <div className="prose dark:prose-invert max-w-none prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance prose-lg prose-pre:p-4 prose-pre:rounded-lg">
-              {MDXContent && (
+              {MDXContent ? (
                 <MDXProvider components={useMDXComponents({})}>
                   <MDXContent />
                 </MDXProvider>
+              ) : (
+                <div className="py-12 text-center text-muted-foreground">
+                  This post is not available in {language === 'fr' ? 'French' : 'English'} yet.
+                </div>
               )}
             </div>
           </div>
@@ -144,7 +182,7 @@ function BlogPostPage() {
         </aside>
       </div>
 
-      <MobileTableOfContents />
+      <MobileTableOfContents language={language} setLanguage={setLanguage} />
     </div>
   )
 }

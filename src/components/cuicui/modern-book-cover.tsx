@@ -1,12 +1,14 @@
 import type { ReactNode } from "react";
 
 const radiusMap = {
+  xs: "rounded-sm",
   sm: "rounded-md",
   md: "rounded-lg",
   lg: "rounded-xl",
 };
 
 const sizeMap = {
+  xs: { width: "120px", spineTranslation: "102px" },
   sm: { width: "180px", spineTranslation: "152px" },
   md: { width: "220px", spineTranslation: "192px" },
   lg: { width: "260px", spineTranslation: "232px" },
@@ -38,8 +40,8 @@ const colorMap = {
 };
 
 interface BookProps {
-  radius?: "sm" | "md" | "lg";
-  size?: "sm" | "md" | "lg";
+  radius?: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
   color?: keyof typeof colorMap;
   isStatic?: boolean;
   forceRotate?: boolean; // New prop for tap effect on mobile

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { FlickeringGrid } from '@/components/magicui/flickering-grid'
 import { TagFilter } from '@/components/tag-filter'
 import { z } from 'zod'
+import { ToggleGroup, ToggleGroupItem } from '@/components/animate-ui/radix/toggle-group'
 
 const blogSearchSchema = z.object({
   tag: z.string().optional(),
@@ -18,18 +19,20 @@ export const Route = createFileRoute('/blog/')({
 function BlogIndex() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
+  const [language, setLanguage] = useState<'en' | 'fr'>('en')
   const search = useSearch({ from: '/blog/' })
   const selectedTag = search.tag || 'All'
 
   useEffect(() => {
-    getBlogPosts().then((fetchedPosts) => {
+    setLoading(true)
+    getBlogPosts(language).then((fetchedPosts) => {
       setPosts(fetchedPosts)
       setLoading(false)
     }).catch((err) => {
       console.error(err)
       setLoading(false)
     })
-  }, [])
+  }, [language])
 
   const allTags = [
     "All",
@@ -67,15 +70,34 @@ function BlogIndex() {
         />
       </div>
       <div className="p-6 pt-24 border-b border-border flex flex-col gap-6 min-h-[400px] justify-center relative z-10">
-        <div className="max-w-7xl mx-auto w-full">
+        <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div className="flex flex-col gap-2">
             <h1 className="font-medium text-4xl md:text-5xl tracking-tighter">
-              Magic UI Blog
+              ISKM Montreal Blog
             </h1>
             <p className="text-muted-foreground text-sm md:text-base lg:text-lg">
-              Latest news and updates from Magic UI.
+              Latest news and updates from ISKM Montreal.
             </p>
           </div>
+          <ToggleGroup
+            type="single"
+            value={language}
+            onValueChange={(v) => { if (v) setLanguage(v as 'en' | 'fr') }}
+            className="bg-muted/50 border border-border rounded-lg p-1"
+          >
+            <ToggleGroupItem
+              value="en"
+              className="px-3 py-1.5 text-sm text-muted-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-md hover:bg-muted transition-all duration-300"
+            >
+              English
+            </ToggleGroupItem>
+            <ToggleGroupItem
+              value="fr"
+              className="px-3 py-1.5 text-sm text-muted-foreground data-[state=on]:bg-primary data-[state=on]:text-primary-foreground data-[state=on]:shadow-md hover:bg-muted transition-all duration-300"
+            >
+              Français
+            </ToggleGroupItem>
+          </ToggleGroup>
         </div>
         {allTags.length > 0 && (
           <div className="max-w-7xl mx-auto w-full">
@@ -101,21 +123,27 @@ function BlogIndex() {
               filteredPosts.length < 4 ? "border-b" : "border-b-0"
             }`}
           >
-            {filteredPosts.map((post) => (
-              <BlogCard
-                key={post.slug}
-                url={`/blog/${post.slug}`}
-                title={post.title}
-                description={post.description}
-                date={new Date(post.date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-                thumbnail={post.thumbnail}
-                showRightBorder={filteredPosts.length < 3}
-              />
-            ))}
+            {filteredPosts.length > 0 ? (
+              filteredPosts.map((post) => (
+                <BlogCard
+                  key={post.slug}
+                  url={`/blog/${post.slug}`}
+                  title={post.title}
+                  description={post.description}
+                  date={new Date(post.date).toLocaleDateString(language === 'fr' ? 'fr-CA' : 'en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                  thumbnail={post.thumbnail}
+                  showRightBorder={filteredPosts.length < 3}
+                />
+              ))
+            ) : (
+              <div className="col-span-full py-12 text-center text-muted-foreground">
+                No posts found for this language.
+              </div>
+            )}
           </div>
         )}
       </div>

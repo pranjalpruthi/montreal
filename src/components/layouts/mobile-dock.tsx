@@ -11,7 +11,9 @@ import {
   MoreHorizontal, 
   Info, 
   ShoppingBag, 
-  MapPin 
+  MapPin,
+  BookOpen,
+  Users
 } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { gsap } from 'gsap';
@@ -40,9 +42,9 @@ const ITEMS: DockItem[] = [
   },
   {
     id: 2,
-    label: 'Calendar',
-    href: '/calendar',
-    title: <Calendar className='h-5 w-5' />,
+    label: 'Blog',
+    href: '/blog',
+    title: <BookOpen className='h-5 w-5' />,
   },
   {
     id: 3,
@@ -58,6 +60,8 @@ const ITEMS: DockItem[] = [
       { label: 'About', href: '/about', icon: Info, colorClass: 'text-blue-500', bgClass: 'bg-blue-500/10 group-hover:bg-blue-500/20' },
       { label: 'Shop', href: '/shop', icon: ShoppingBag, colorClass: 'text-orange-500', bgClass: 'bg-orange-500/10 group-hover:bg-orange-500/20' },
       { label: 'Centers', href: '/centers', icon: MapPin, colorClass: 'text-green-500', bgClass: 'bg-green-500/10 group-hover:bg-green-500/20' },
+      { label: 'Community', href: '/community', icon: Users, colorClass: 'text-purple-500', bgClass: 'bg-purple-500/10 group-hover:bg-purple-500/20' },
+      { label: 'Calendar', href: '/calendar', icon: Calendar, colorClass: 'text-red-500', bgClass: 'bg-red-500/10 group-hover:bg-red-500/20' },
     ]
   },
 ];

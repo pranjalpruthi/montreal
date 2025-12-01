@@ -95,12 +95,12 @@ export function Navbar() {
                         )}>
                             <ModeToggle className="origin-center" />
                         </div>
-                        <span className={cn(
-                            "font-serif font-bold text-xl transition-colors duration-300",
+                        <Link to="/" className={cn(
+                            "font-serif font-bold text-xl transition-colors duration-300 hover:opacity-80",
                             isScrolled ? "text-foreground" : "text-foreground/90"
                         )}>
                             ISKM <span className="text-primary">Montreal</span>
-                        </span>
+                        </Link>
                     </div>
 
                     {/* Desktop Navigation (Center) */}
@@ -157,9 +157,9 @@ export function Navbar() {
                         <div className="scale-125 origin-left">
                             <ModeToggle />
                         </div>
-                        <span className="font-serif font-bold text-xl text-foreground ml-2">
+                        <Link to="/" className="font-serif font-bold text-xl text-foreground ml-2 hover:opacity-80 transition-opacity">
                             ISKM <span className="text-primary">Montreal</span>
-                        </span>
+                        </Link>
                     </div>
                     <div className="flex items-center gap-2">
                         <Button asChild size="icon" className="rounded-full h-9 w-9 bg-red-600 text-white hover:bg-red-700 shadow-sm border border-red-700/20">

@@ -5,7 +5,7 @@ import { ModernBookCover } from '@/components/cuicui/modern-book-cover';
 import { Badge } from '@/components/ui/badge';
 import { FlipButton } from '@/components/animate-ui/buttons/flip';
 import { LiquidButton } from '@/components/animate-ui/buttons/liquid';
-import { BookOpen, Languages, CheckCircle, Eye, Download, Heart } from 'lucide-react';
+import { BookOpen, Languages, CheckCircle, Eye, Download, Heart, QuoteIcon } from 'lucide-react';
 import { IconBrandWhatsapp } from '@tabler/icons-react';
 import {
   Sheet,
@@ -354,6 +354,33 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
   );
 };
 
+const BlockQuote = ({
+  quote,
+  author,
+}: {
+  quote: string;
+  author: string;
+}) => {
+  return (
+    <blockquote className="rounded-xl border-amber-500/70 border-l-4 bg-amber-500/15 px-4 py-2 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400">
+      <p className="inline italic">
+        <QuoteIcon
+          aria-hidden="true"
+          className="-translate-y-1 mr-1 inline size-3 fill-amber-700 stroke-none"
+        />
+        {quote}
+        <QuoteIcon
+          aria-hidden="true"
+          className="ml-1 inline size-3 translate-y-1 fill-amber-700 stroke-none"
+        />
+      </p>
+      <p className="mt-1.5 text-end font-semibold text-sm italic tracking-tighter">
+        {author}
+      </p>
+    </blockquote>
+  );
+};
+
 export function FeaturedBooksSection() {
   const [selectedBook, setSelectedBook] = React.useState<BookDetailData>(allBooksData[0]);
   const [orderNumber, setOrderNumber] = React.useState('');
@@ -451,14 +478,9 @@ export function FeaturedBooksSection() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ...springTransition, delay: 0.07 }}
-                className="border-l-4 border-purple-500 pl-4 text-base text-muted-foreground mt-4"
+                className="mt-4"
               >
-                <p className="mb-2 italic">"{selectedBook.quote.text}"</p>
-                <div className="text-right">
-                  <Badge variant="secondary" className="text-xs font-normal whitespace-normal">
-                    - {selectedBook.quote.source}
-                  </Badge>
-                </div>
+                <BlockQuote quote={selectedBook.quote.text} author={selectedBook.quote.source} />
               </motion.div>
             )}
 
