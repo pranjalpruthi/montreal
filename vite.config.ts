@@ -4,6 +4,12 @@ import viteReact from '@vitejs/plugin-react'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
+import mdx from '@mdx-js/rollup'
+import remarkFrontmatter from 'remark-frontmatter'
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
+
+import rehypeSlug from 'rehype-slug'
+import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 
 const config = defineConfig({
   plugins: [
@@ -19,6 +25,23 @@ const config = defineConfig({
       babel: {
         plugins: ['babel-plugin-react-compiler'],
       },
+    }),
+    mdx({
+      providerImportSource: "@mdx-js/react",
+      remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+      rehypePlugins: [
+        rehypeSlug,
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: "wrap",
+            properties: {
+              className: ["subheading-anchor"],
+              ariaLabel: "Link to section",
+            },
+          },
+        ],
+      ],
     }),
   ],
 })

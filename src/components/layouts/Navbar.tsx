@@ -23,7 +23,8 @@ export function Navbar() {
         { to: '/', hash: 'about', label: 'About' },
         { to: '/', hash: 'programs', label: 'Programs' },
         { to: '/', hash: 'resources', label: 'Resources' },
-        { to: '/', hash: 'community', label: 'Community' },
+        { to: '/community', label: 'Community' },
+        { to: '/blog', label: 'Blog' },
         { to: '/', hash: 'contact', label: 'Contact' },
     ]
 

@@ -1,0 +1,27 @@
+backend:
+  name: github
+  repo: pranjalpruthi/montreal
+  branch: main
+
+local_backend: true
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    extension: "mdx"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Author", name: "author", widget: "string", required: false }
+      - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Body", name: "body", widget: "markdown" }

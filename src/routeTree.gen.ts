@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DonateRouteImport } from './routes/donate'
+import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -32,6 +33,11 @@ import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 const DonateRoute = DonateRouteImport.update({
   id: '/donate',
   path: '/donate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CalendarRoute = CalendarRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calendar': typeof CalendarRoute
+  '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -150,6 +157,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calendar': typeof CalendarRoute
+  '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/calendar': typeof CalendarRoute
+  '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calendar'
+    | '/community'
     | '/donate'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calendar'
+    | '/community'
     | '/donate'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/calendar'
+    | '/community'
     | '/donate'
     | '/auth/sign-in'
     | '/auth/sign-up'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   CalendarRoute: typeof CalendarRoute
+  CommunityRoute: typeof CommunityRoute
   DonateRoute: typeof DonateRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
@@ -284,6 +297,13 @@ declare module '@tanstack/react-router' {
       path: '/donate'
       fullPath: '/donate'
       preLoaderRoute: typeof DonateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calendar': {
@@ -419,6 +439,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   CalendarRoute: CalendarRoute,
+  CommunityRoute: CommunityRoute,
   DonateRoute: DonateRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
