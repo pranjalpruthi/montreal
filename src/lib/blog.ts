@@ -17,7 +17,7 @@ export type BlogPost = z.infer<typeof blogPostSchema> & {
 };
 
 export async function getBlogPosts(): Promise<BlogPost[]> {
-  const modules = import.meta.glob('/src/content/blog/*.mdx', { eager: true });
+  const modules = import.meta.glob('/src/content/blog/en/*.mdx', { eager: true });
   
   const posts = Object.entries(modules).map(([path, mod]: [string, any]) => {
     const slug = path.split('/').pop()?.replace('.mdx', '') || '';

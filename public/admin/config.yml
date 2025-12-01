@@ -8,6 +8,11 @@ local_backend: true
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
+i18n:
+  structure: multiple_folders
+  locales: [en, fr]
+  default_locale: en
+
 collections:
   - name: "blog"
     label: "Blog"
@@ -16,12 +21,13 @@ collections:
     slug: "{{slug}}"
     extension: "mdx"
     format: "frontmatter"
+    i18n: true
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Description", name: "description", widget: "text" }
-      - { label: "Publish Date", name: "date", widget: "datetime" }
-      - { label: "Author", name: "author", widget: "string", required: false }
-      - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
-      - { label: "Tags", name: "tags", widget: "list", required: false }
-      - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: "Title", name: "title", widget: "string", i18n: true }
+      - { label: "Description", name: "description", widget: "text", i18n: true }
+      - { label: "Publish Date", name: "date", widget: "datetime", i18n: duplicate }
+      - { label: "Author", name: "author", widget: "string", required: false, i18n: duplicate }
+      - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false, i18n: duplicate }
+      - { label: "Tags", name: "tags", widget: "list", required: false, i18n: duplicate }
+      - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false, i18n: duplicate }
+      - { label: "Body", name: "body", widget: "markdown", i18n: true }

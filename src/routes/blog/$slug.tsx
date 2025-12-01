@@ -32,8 +32,8 @@ function BlogPostPage() {
 
   useEffect(() => {
     const loadContent = async () => {
-      const modules = import.meta.glob('/src/content/blog/*.mdx')
-      const path = `/src/content/blog/${post.slug}.mdx`
+      const modules = import.meta.glob('/src/content/blog/en/*.mdx')
+      const path = `/src/content/blog/en/${post.slug}.mdx`
       
       if (modules[path]) {
         const mod: any = await modules[path]()
