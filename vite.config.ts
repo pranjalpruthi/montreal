@@ -21,11 +21,6 @@ const config = defineConfig({
     }),
     tailwindcss(),
     tanstackStart(),
-    viteReact({
-      babel: {
-        plugins: ['babel-plugin-react-compiler'],
-      },
-    }),
     mdx({
       providerImportSource: "@mdx-js/react",
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
@@ -42,6 +37,11 @@ const config = defineConfig({
           },
         ],
       ],
+    }),
+    viteReact({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
     }),
   ],
 })

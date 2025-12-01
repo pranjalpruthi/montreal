@@ -11,27 +11,37 @@ interface Heading {
 
 interface TableOfContentsProps {
   className?: string;
+  onLinkClick?: () => void;
 }
 
-export function TableOfContents({ className }: TableOfContentsProps) {
+export function TableOfContents({ className, onLinkClick }: TableOfContentsProps) {
   const [headings, setHeadings] = useState<Heading[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
   useEffect(() => {
-    const headingElements = document.querySelectorAll("h1, h2");
-    const headingsArray: Heading[] = [];
+    const updateHeadings = () => {
+      const headingElements = document.querySelectorAll("h1, h2");
+      const headingsArray: Heading[] = [];
 
-    headingElements.forEach((element) => {
-      if (element.id) {
-        headingsArray.push({
-          id: element.id,
-          text: element.textContent || "",
-          level: parseInt(element.tagName.charAt(1)),
-        });
-      }
-    });
+      headingElements.forEach((element) => {
+        if (element.id) {
+          headingsArray.push({
+            id: element.id,
+            text: element.textContent || "",
+            level: parseInt(element.tagName.charAt(1)),
+          });
+        }
+      });
 
-    setHeadings(headingsArray);
+      setHeadings(headingsArray);
+    };
+
+    updateHeadings();
+
+    const observer = new MutationObserver(updateHeadings);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -126,26 +136,10 @@ export function TableOfContents({ className }: TableOfContentsProps) {
     };
   }, [headings, activeId]);
 
-  const handleClick = async (id: string) => {
-    const url = `${window.location.origin}${window.location.pathname}#${id}`;
-
-    window.history.pushState({}, '', `#${id}`);
-
-    try {
-      await navigator.clipboard.writeText(url);
-    } catch (err) {
-      console.error(err);
-      const textArea = document.createElement("textarea");
-      textArea.value = url;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-    }
-
+  const handleClick = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 80;
+      const offset = 100; // Increased offset for fixed header
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -153,6 +147,14 @@ export function TableOfContents({ className }: TableOfContentsProps) {
         top: offsetPosition,
         behavior: "smooth",
       });
+      
+      // Update URL hash without scrolling (scrolling handled above)
+      window.history.pushState(null, "", `#${id}`);
+      setActiveId(id);
+      
+      if (onLinkClick) {
+        onLinkClick();
+      }
     }
   };
 

@@ -1,5 +1,6 @@
 import { type Author } from "@/lib/authors";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface AuthorCardProps {
   author: Author;
@@ -8,17 +9,16 @@ interface AuthorCardProps {
 
 export function AuthorCard({ author, className }: AuthorCardProps) {
   return (
-    <div className={cn("flex items-start gap-2", className)}>
-      <img
-        src={author.avatar}
-        alt={author.name}
-        className="rounded-full w-8 h-8 border border-border object-cover"
-      />
-      <div className="flex-1">
-        <h3 className="text-sm tracking-tight text-balance font-semibold">
+    <div className={cn("flex items-center gap-3", className)}>
+      <Avatar className="h-10 w-10 border border-border">
+        <AvatarImage src={author.avatar} alt={author.name} className="object-cover" />
+        <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
+      </Avatar>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-semibold tracking-tight text-foreground">
           {author.name}
         </h3>
-        <p className="text-xs text-muted-foreground text-balance">
+        <p className="text-xs text-muted-foreground truncate">
           {author.position}
         </p>
       </div>

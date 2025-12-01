@@ -5,7 +5,7 @@ import { ModernBookCover } from '@/components/cuicui/modern-book-cover';
 import { Badge } from '@/components/ui/badge';
 import { FlipButton } from '@/components/animate-ui/buttons/flip';
 import { LiquidButton } from '@/components/animate-ui/buttons/liquid';
-import { BookOpen, Languages, CheckCircle, Eye, Download } from 'lucide-react';
+import { BookOpen, Languages, CheckCircle, Eye, Download, Heart } from 'lucide-react';
 import { IconBrandWhatsapp } from '@tabler/icons-react';
 import {
   Sheet,
@@ -48,7 +48,7 @@ interface BookDetailData {
   playlistLink?: string;
   whatsAppNumber: string;
   baseWhatsAppMessageTemplate: string;
-  price: string;
+  price: React.ReactNode;
   shippingNote?: string;
   quote?: {
     text: string;
@@ -59,6 +59,44 @@ interface BookDetailData {
     icon: React.ReactNode;
   }[];
 }
+
+const gitaJayantiBookDetails: BookDetailData = {
+  id: "gita-jayanti",
+  orderIdPrefix: "GITA",
+  title: "Bhagavad-gītā As It Is",
+  subtitle: "Gītā Jayantī Special Edition",
+  coverImage: "/thumbnails/bg-fr-cover.jpg",
+  description: "Sponsor or purchase a Bhagavad-gītā this Gītā Jayantī. 3,000 copies arriving soon. Your contribution places the absolute truth in someone's hands.",
+  badges: ["Gītā Jayantī", "Special Offer", "Limited Time"],
+  keyPoints: [
+    {
+      title: "Distribute Wisdom",
+      icon: <BookOpen className="h-5 w-5 mr-2 text-orange-500" />
+    },
+    {
+      title: "Mercy of Krishna",
+      icon: <Heart className="h-5 w-5 mr-2 text-red-500" />
+    },
+    {
+      title: "Global Impact",
+      icon: <Languages className="h-5 w-5 mr-2 text-blue-500" />
+    }
+  ],
+  productLink: "https://square.link/u/iLHo1ycl?src=sheet",
+  whatsAppNumber: "12633807303",
+  baseWhatsAppMessageTemplate: `Hare Kṛṣṇa! prabhu
+ Dandwat pranam, please accept my humble obesiances
+All Glories to Śrīla Prabhupāda!
+
+I would like to order/sponsor Bhagavad-gītā for Gītā Jayantī.
+My Temple Site Order Number is: `,
+  price: <div className="flex items-baseline gap-2"><span className="line-through text-muted-foreground text-lg">$30 CAD</span><span>$15 CAD</span></div>,
+  shippingNote: "(per book sponsored) or order at home",
+  quote: {
+    text: "Prāṇair arthair dhiyā vācāḥ. You have to employ your life, your money, your words, and your intelligence, all for Kṛṣṇa. That is Kṛṣṇa consciousness. If you have got enough money, spend it for Kṛṣṇa. Don't stock it. The more you spend, more you become balanceless for spending Kṛṣṇa, then more you are benefited. This is the process.",
+    source: "(Śrila Prabhupāda, Dec. 20th, 1968, Los Angeles)"
+  }
+};
 
 const ia77BookDetails: BookDetailData = {
   id: "ia77",
@@ -177,7 +215,7 @@ My Temple Site Order Number is: `,
 };
 
 
-const allBooksData: BookDetailData[] = [wwokBookDetails, ia77BookDetails, usuageBookDetails];
+const allBooksData: BookDetailData[] = [gitaJayantiBookDetails, wwokBookDetails, ia77BookDetails, usuageBookDetails];
 
 const PDFPreview: React.FC<{ src: string }> = ({ src }) => {
   return (
@@ -213,11 +251,10 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
     <div className={containerClasses}>
       <a href={whatsAppOrderUrl} target="_blank" rel="noopener noreferrer">
         <LiquidButton
-          variant="default"
+          variant="whatsapp"
           className="w-24 h-24 p-2 rounded-2xl flex flex-col items-center justify-center gap-1 shadow-lg"
-          style={{ '--liquid-button-color': '#25D366' } as React.CSSProperties}
         >
-          <IconBrandWhatsapp className="h-10 w-10" />
+          <IconBrandWhatsapp className="size-10" stroke={2} />
           <span className="text-xs font-semibold">Order</span>
         </LiquidButton>
       </a>
@@ -226,15 +263,15 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
         <a href={book.productLink} target="_blank" rel="noopener noreferrer">
           <FlipButton
             className="w-24 h-24 p-2 rounded-2xl text-white shadow-lg"
-            frontClassName="bg-sky-500 hover:bg-sky-600"
-            backClassName="bg-sky-700"
+            frontClassName="bg-orange-600 hover:bg-orange-700"
+            backClassName="bg-orange-800"
             frontContent={
               <div className="flex flex-col items-center justify-center gap-1">
-                <Eye className="h-10 w-10" />
-                <span className="text-xs font-semibold text-center">Product Page</span>
+                {book.id === 'gita-jayanti' ? <Heart className="size-10" /> : <Eye className="size-10" />}
+                <span className="text-xs font-semibold text-center">{book.id === 'gita-jayanti' ? 'Donate' : 'Product Page'}</span>
               </div>
             }
-            backContent={<span className="text-sm font-bold">View Now</span>}
+            backContent={<span className="text-sm font-bold">{book.id === 'gita-jayanti' ? 'Donate Now' : 'View Now'}</span>}
           />
         </a>
       )}
@@ -248,7 +285,7 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
               backClassName="bg-primary text-primary-foreground"
               frontContent={
                 <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
-                  <Download className="h-10 w-10" />
+                  <Download className="size-10" />
                   <span className="text-xs font-semibold">Download</span>
                 </div>
               }
@@ -263,7 +300,7 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
             onClick={() => onPreviewClick(book.previewPdfPath!, book.title)}
             frontContent={
               <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
-                <BookOpen className="h-10 w-10" />
+                <BookOpen className="size-10" />
                 <span className="text-xs font-semibold">Preview</span>
               </div>
             }
@@ -279,7 +316,7 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
             backClassName="bg-primary text-primary-foreground"
             frontContent={
               <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
-                <Eye className="h-10 w-10" />
+                <Eye className="size-10" />
                 <span className="text-xs font-semibold">eBook</span>
               </div>
             }
@@ -304,7 +341,7 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="h-10 w-10"
+              className="size-10"
             >
               <path d="M2.8 7.1a2.2 2.2 0 0 1 1.7-1.7C7.3 5 12 5 12 5s4.7 0 7.5.4a2.2 2.2 0 0 1 1.7 1.7c.3 2.1.3 4.9.3 4.9s0 2.8-.3 4.9a2.2 2.2 0 0 1-1.7 1.7c-2.8.4-7.5.4-7.5.4s-4.7 0-7.5-.4a2.2 2.2 0 0 1-1.7-1.7c-.3-2.1-.3-4.9-.3-4.9s0-2.8.3-4.9Z" />
               <path d="m10 9 5 3-5 3Z" />
@@ -366,7 +403,7 @@ export function FeaturedBooksSection() {
             transition={{ ...springTransition, delay: 0.02 }}
             className="md:col-span-1 lg:col-span-4 flex flex-col items-center"
           >
-            <ModernBookCover size={isMobile ? "md" : "lg"} color={selectedBook.id === 'wwok' ? 'yellow' : selectedBook.id === 'usuage' ? 'neutral' : 'zinc'} className="shadow-xl hover:shadow-zinc-400/30 dark:hover:shadow-black/50 transition-shadow duration-300">
+            <ModernBookCover size={isMobile ? "md" : "lg"} color={selectedBook.id === 'wwok' ? 'yellow' : selectedBook.id === 'usuage' ? 'neutral' : selectedBook.id === 'gita-jayanti' ? 'orange' : 'zinc'} className="shadow-xl hover:shadow-zinc-400/30 dark:hover:shadow-black/50 transition-shadow duration-300">
               <img
                 src={selectedBook.coverImage}
                 alt={selectedBook.title}
@@ -519,7 +556,7 @@ export function FeaturedBooksSection() {
                 >
                   <ModernBookCover 
                     size="sm" 
-                    color={book.id === 'wwok' ? 'yellow' : book.id === 'usuage' ? 'neutral' : 'zinc'} 
+                    color={book.id === 'wwok' ? 'yellow' : book.id === 'usuage' ? 'neutral' : book.id === 'gita-jayanti' ? 'orange' : 'zinc'} 
                     className="mx-auto"
                     forceRotate={isMobile && selectedBook.id === book.id}
                   >

@@ -4,25 +4,27 @@ export interface Author {
   avatar: string;
 }
 
-export const authors: Record<string, Author> = {
-  dillion: {
-    name: "Dillion Verma",
-    position: "Software Engineer",
-    avatar: "/authors/dillion.png",
-  },
-  arghya: {
-    name: "Arghya Das",
-    position: "Design System Engineer",
-    avatar: "/authors/arghya.png",
-  },
-} as const;
+export type AuthorKey = string;
 
-export type AuthorKey = keyof typeof authors;
+export async function getAuthors(): Promise<Record<string, Author>> {
+  const modules = import.meta.glob('/src/content/authors/*.json', { eager: true });
+  const authors: Record<string, Author> = {};
 
-export function getAuthor(key: AuthorKey): Author {
+  for (const path in modules) {
+    const slug = path.split('/').pop()?.replace('.json', '') || '';
+    const authorData = (modules[path] as any).default || modules[path];
+    authors[slug] = authorData as Author;
+  }
+
+  return authors;
+}
+
+export async function getAuthor(key: AuthorKey): Promise<Author | undefined> {
+  const authors = await getAuthors();
   return authors[key];
 }
 
-export function isValidAuthor(key: string): key is AuthorKey {
+export async function isValidAuthor(key: string): Promise<boolean> {
+  const authors = await getAuthors();
   return key in authors;
 }

@@ -18,6 +18,8 @@ const buttonVariants = cva(
           'text-secondary hover:text-secondary-foreground !bg-muted [--liquid-button-color:var(--secondary)]',
         playlist:
           'text-white !bg-[#FF0000] [--liquid-button-color:#CC0000] hover:text-white',
+        whatsapp:
+          'text-white !bg-[#25D366] [--liquid-button-color:#128C7E] hover:text-white',
       },
       size: {
         default: 'h-10 px-4 py-2 has-[>svg]:px-3',

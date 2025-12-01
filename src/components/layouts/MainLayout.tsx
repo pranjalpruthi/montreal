@@ -5,7 +5,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Navbar />
-            <div className="flex min-h-screen flex-col w-full overflow-x-hidden">
+            <div className="flex min-h-screen flex-col w-full">
                 <main className="flex-1 w-full">
                     {children}
                 </main>

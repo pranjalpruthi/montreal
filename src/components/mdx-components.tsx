@@ -33,7 +33,14 @@ interface AuthorProps {
 }
 
 function Author({ id }: AuthorProps) {
-  const author = getAuthor(id);
+  const [author, setAuthor] = React.useState<any>(null);
+
+  React.useEffect(() => {
+    getAuthor(id).then(setAuthor);
+  }, [id]);
+
+  if (!author) return null;
+
   return <AuthorCard author={author} className="my-8" />;
 }
 

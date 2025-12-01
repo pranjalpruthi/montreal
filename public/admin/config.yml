@@ -26,8 +26,21 @@ collections:
       - { label: "Title", name: "title", widget: "string", i18n: true }
       - { label: "Description", name: "description", widget: "text", i18n: true }
       - { label: "Publish Date", name: "date", widget: "datetime", i18n: duplicate }
-      - { label: "Author", name: "author", widget: "string", required: false, i18n: duplicate }
+      - { label: "Author", name: "author", widget: "relation", collection: "authors", search_fields: ["name"], value_field: "{{slug}}", display_fields: ["name"], required: false, i18n: duplicate }
       - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false, i18n: duplicate }
       - { label: "Tags", name: "tags", widget: "list", required: false, i18n: duplicate }
       - { label: "Featured", name: "featured", widget: "boolean", default: false, required: false, i18n: duplicate }
       - { label: "Body", name: "body", widget: "markdown", i18n: true }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "src/content/authors"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Position", name: "position", widget: "string" }
+      - { label: "Avatar", name: "avatar", widget: "image" }
+

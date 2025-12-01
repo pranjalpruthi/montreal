@@ -4,7 +4,7 @@ import { useMDXComponents } from '@/components/mdx-components'
 import { MDXProvider } from '@mdx-js/react'
 import { useEffect, useState } from 'react'
 import { AuthorCard } from '@/components/author-card'
-import { getAuthor, isValidAuthor } from '@/lib/authors'
+import { getAuthor } from '@/lib/authors'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FlickeringGrid } from '@/components/magicui/flickering-grid'
@@ -22,12 +22,13 @@ export const Route = createFileRoute('/blog/$slug')({
     if (!post) {
       throw new Error('Post not found')
     }
-    return { post, posts }
+    const author = post.author ? await getAuthor(post.author) : null
+    return { post, posts, author }
   },
 })
 
 function BlogPostPage() {
-  const { post, posts } = Route.useLoaderData()
+  const { post, posts, author } = Route.useLoaderData()
   const [MDXContent, setMDXContent] = useState<any>(null)
 
   useEffect(() => {
@@ -113,7 +114,7 @@ function BlogPostPage() {
             </div>
           )}
           <div className="p-6 lg:p-10">
-            <div className="prose dark:prose-invert max-w-none prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance prose-lg">
+            <div className="prose dark:prose-invert max-w-none prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance prose-lg prose-pre:p-4 prose-pre:rounded-lg">
               {MDXContent && (
                 <MDXProvider components={useMDXComponents({})}>
                   <MDXContent />
@@ -131,9 +132,9 @@ function BlogPostPage() {
         </main>
 
         <aside className="hidden lg:block w-[350px] flex-shrink-0 p-6 lg:p-10 bg-muted/60 dark:bg-muted/20">
-          <div className="sticky top-20 space-y-8">
-            {post.author && isValidAuthor(post.author) && (
-              <AuthorCard author={getAuthor(post.author)} />
+          <div className="sticky top-24 space-y-8">
+            {author && (
+              <AuthorCard author={author} />
             )}
             <div className="border border-border rounded-lg p-6 bg-card">
               <TableOfContents />

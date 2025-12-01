@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Youtube } from 'lucide-react'
+import { Youtube, Search } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
@@ -70,6 +70,15 @@ export function Navbar() {
 
                         {/* Actions (Right) */}
                         <div className="flex items-center gap-2">
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="rounded-full text-muted-foreground hover:text-foreground"
+                                onClick={() => (window as any).openCommandMenu?.()}
+                                aria-label="Search"
+                            >
+                                <Search className="h-5 w-5" />
+                            </Button>
                             <Button asChild variant="secondary" size="icon" className="rounded-full bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-950/30 dark:text-red-400 dark:hover:bg-red-900/50 shadow-sm">
                                 <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
                                     <Youtube className="h-5 w-5" />

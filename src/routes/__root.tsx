@@ -104,6 +104,10 @@ import { ThemeProvider } from '@/components/theme-provider'
 
 // ... imports
 
+import { CommandMenu } from '@/components/command-menu'
+
+// ... imports
+
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -115,6 +119,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           <MainLayout>
             {children}
           </MainLayout>
+          <CommandMenu />
         </ThemeProvider>
         {import.meta.env.DEV && (
           <TanStackDevtools
