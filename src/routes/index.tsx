@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Hero } from '@/components/homepage/Hero'
+import { NewsroomUpdates } from '@/components/homepage/newsroom'
 import { FeaturedSection } from '@/components/homepage/featured-section'
 import { FeaturedBooksSection } from '@/components/homepage/featured-books-section'
 import { About } from '@/components/homepage/About'
@@ -18,6 +19,7 @@ function Home() {
         Skip to main content
       </a>
       <Hero />
+      <NewsroomUpdates />
       <FeaturedSection />
       <FeaturedBooksSection />
       <About />
