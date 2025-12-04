@@ -19,8 +19,8 @@ function Home() {
         Skip to main content
       </a>
       <Hero />
-      <NewsroomUpdates />
       <FeaturedSection />
+      <NewsroomUpdates />
       <FeaturedBooksSection />
       <About />
       <Programs />
