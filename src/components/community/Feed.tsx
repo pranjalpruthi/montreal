@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
 import { Calendar, Play, Youtube, Facebook, Clock, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Marquee } from '@/components/ui/marquee'
+import { Marquee } from '@/components/magicui/marquee'
 
 // TypeScript declarations for Facebook SDK
 declare global {

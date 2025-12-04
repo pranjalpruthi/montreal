@@ -28,11 +28,18 @@ export function BlogCard({
     >
       <div className="flex flex-col">
         {thumbnail && (
-          <div className="relative w-full h-48 overflow-hidden">
+          <div className="relative w-full h-48 overflow-hidden bg-muted/20">
+            {/* Blurred background */}
+            <div 
+              className="absolute inset-0 w-full h-full bg-cover bg-center blur-xl scale-110 opacity-50 dark:opacity-40 transition-transform duration-300 group-hover:scale-125"
+              style={{ backgroundImage: `url(${thumbnail})` }}
+            />
+            
+            {/* Main contained image */}
             <img
               src={thumbnail}
               alt={title}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
             />
           </div>
         )}

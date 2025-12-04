@@ -108,7 +108,19 @@ import { CommandMenu } from '@/components/command-menu'
 
 // ... imports
 
+import { InitialPageLoader } from '@/components/layouts/page-loader'
+import React from 'react'
+
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2500)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -116,10 +128,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ThemeProvider defaultTheme="light" storageKey="pondi-ui-theme">
-          <MainLayout>
-            {children}
-          </MainLayout>
-          <CommandMenu />
+          {isLoading ? (
+            <InitialPageLoader />
+          ) : (
+            <>
+              <MainLayout>
+                {children}
+              </MainLayout>
+              <CommandMenu />
+            </>
+          )}
         </ThemeProvider>
         {import.meta.env.DEV && (
           <TanStackDevtools

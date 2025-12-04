@@ -139,11 +139,18 @@ function BlogPostPage() {
         <div className="absolute max-w-7xl mx-auto left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] lg:w-full h-full border-x border-border p-0 pointer-events-none" />
         <main className="w-full p-0 overflow-hidden">
           {post.thumbnail && (
-            <div className="relative w-full h-[500px] overflow-hidden object-cover border border-transparent">
+            <div className="relative w-full h-[500px] overflow-hidden bg-muted/20 border-b border-border">
+              {/* Blurred background for ambient effect */}
+              <div 
+                className="absolute inset-0 w-full h-full bg-cover bg-center blur-xl scale-110 opacity-50 dark:opacity-40"
+                style={{ backgroundImage: `url(${post.thumbnail})` }}
+              />
+              
+              {/* Main contained image */}
               <img
                 src={post.thumbnail}
                 alt={post.title}
-                className="w-full h-full object-cover"
+                className="relative z-10 w-full h-full object-contain"
               />
             </div>
           )}

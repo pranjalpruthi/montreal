@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ModernBookCover } from '@/components/cuicui/modern-book-cover';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +20,8 @@ import usuageCover from '@/assets/extra/usuagecover.webp';
 import ia77Pdf from '@/assets/books/IA77.pdf';
 import wwokPdf from '@/assets/books/WWOK.pdf';
 import usuagePdf from '@/assets/books/Usage of BBT Books – ISKM Position Paper.pdf';
+import adReplyCover from '@/assets/extra/ADReplycover.webp';
+import adReplyPdf from '@/assets/books/ADReply.pdf';
 
 const springTransition = {
   stiffness: 350,
@@ -58,6 +60,7 @@ interface BookDetailData {
     title: string;
     icon: React.ReactNode;
   }[];
+  color?: string;
 }
 
 const gitaJayantiBookDetails: BookDetailData = {
@@ -95,7 +98,8 @@ My Temple Site Order Number is: `,
   quote: {
     text: "Prāṇair arthair dhiyā vācāḥ. You have to employ your life, your money, your words, and your intelligence, all for Kṛṣṇa. That is Kṛṣṇa consciousness. If you have got enough money, spend it for Kṛṣṇa. Don't stock it. The more you spend, more you become balanceless for spending Kṛṣṇa, then more you are benefited. This is the process.",
     source: "(Śrila Prabhupāda, Dec. 20th, 1968, Los Angeles)"
-  }
+  },
+  color: "orange"
 };
 
 const ia77BookDetails: BookDetailData = {
@@ -135,7 +139,8 @@ My Temple Site Order Number is: `,
   quote: {
     text: "I have deputed the ritvik, the representative of the acharya, to act for me.",
     source: "(Letter to all G.B.C. members and Temple Presidents, July 9, 1977)"
-  }
+  },
+  color: "zinc"
 };
 
 const wwokBookDetails: BookDetailData = {
@@ -174,7 +179,8 @@ My Temple Site Order Number is: `,
   quote: {
     text: "Abandon all varieties of religion and just surrender unto Me. I shall deliver you from all sinful reactions. Do not fear.",
     source: "(Bhagavad-gītā As It Is, 18.66)"
-  }
+  },
+  color: "yellow"
 };
 
 const usuageBookDetails: BookDetailData = {
@@ -211,11 +217,50 @@ My Temple Site Order Number is: `,
   quote: {
     text: "The book is the basis. Reading of the books must be going on. And whatever is in the books, that must be introduced in our life.",
     source: "(Lecture, April 13, 1975, Hyderabad)"
-  }
+  },
+  color: "neutral"
+};
+
+const adReplyBookDetails: BookDetailData = {
+  id: "ad-reply",
+  orderIdPrefix: "ADREPLY",
+  title: "Amogh Līlā Dāsa Reply",
+  subtitle: "The Ultimate Showdown",
+  coverImage: adReplyCover,
+  description: "The publication which will be remembered as having shook ISKCON to its very core. The ultimate showdown between Amogh Līlā dāsa (ISKCON) and Tattvavit dāsa (ISKM). Preserved in its entirety, captured with every argument, every counterpoint, and with every subtle nuance intact.",
+  badges: ["Spiritual Hurricane", "Debate", "Uncompromising Truth"],
+  keyPoints: [
+    {
+      title: "Complete Record",
+      icon: <CheckCircle className="h-5 w-5 mr-2 text-red-500" />
+    },
+    {
+      title: "Voices Heard Fully",
+      icon: <Languages className="h-5 w-5 mr-2 text-blue-500" />
+    },
+    {
+      title: "Devotion & Conviction",
+      icon: <Heart className="h-5 w-5 mr-2 text-purple-500" />
+    }
+  ],
+  previewPdfPath: adReplyPdf,
+  whatsAppNumber: "12633807303",
+  baseWhatsAppMessageTemplate: `Hare Kṛṣṇa! prabhu
+ Dandwat pranam, please accept my humble obesiances
+All Glories to Śrīla Prabhupāda!
+
+I would like to order the book "Amogh Līlā Dāsa Reply".
+My Temple Site Order Number is: `,
+  price: <div className="flex flex-col"><span className="font-bold">$5 CAD <span className="text-sm font-normal text-muted-foreground">(Physical Copy)</span></span><span className="text-sm text-green-600 font-medium">Free (Ebook Download)</span></div>,
+  quote: {
+    text: "This is more than a book. It is history. It is a revelation. It is the ultimate testament to devotion and courage of conviction.",
+    source: "(ISKM Montreal)"
+  },
+  color: "lotus"
 };
 
 
-const allBooksData: BookDetailData[] = [gitaJayantiBookDetails, wwokBookDetails, ia77BookDetails, usuageBookDetails];
+const allBooksData: BookDetailData[] = [ia77BookDetails, wwokBookDetails, adReplyBookDetails, gitaJayantiBookDetails, usuageBookDetails];
 
 const PDFPreview: React.FC<{ src: string }> = ({ src }) => {
   return (
@@ -246,6 +291,21 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
   const containerClasses = isMobileLayout
     ? "pt-6 flex flex-wrap gap-4 items-center justify-center shrink-0 w-full"
     : "pt-2 flex flex-wrap gap-4 items-center justify-start lg:justify-end shrink-0";
+
+  const getButtonColors = (color?: string) => {
+    if (color === 'lotus') {
+      return {
+        front: "bg-pink-100 hover:bg-pink-200 dark:bg-pink-900/30 dark:hover:bg-pink-900/50",
+        text: "text-pink-700 dark:text-pink-300"
+      };
+    }
+    return {
+      front: "bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700",
+      text: "text-slate-700 dark:text-slate-300"
+    };
+  };
+
+  const buttonColors = getButtonColors(book.color);
 
   return (
     <div className={containerClasses}>
@@ -281,10 +341,10 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
           <a href={book.previewPdfPath} download={`${book.title.replace(/\s+/g, '_')}-Preview.pdf`}>
             <FlipButton
               className="w-24 h-24 p-2 rounded-2xl shadow-lg"
-              frontClassName="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+              frontClassName={buttonColors.front}
               backClassName="bg-primary text-primary-foreground"
               frontContent={
-                <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
+                <div className={`flex flex-col items-center justify-center gap-1 ${buttonColors.text}`}>
                   <Download className="size-10" />
                   <span className="text-xs font-semibold">Download</span>
                 </div>
@@ -293,19 +353,35 @@ const BookActionButtons: React.FC<BookActionButtonsProps> = ({
             />
           </a>
         ) : (
-          <FlipButton
-            className="w-24 h-24 p-2 rounded-2xl shadow-lg"
-            frontClassName="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
-            backClassName="bg-primary text-primary-foreground"
-            onClick={() => onPreviewClick(book.previewPdfPath!, book.title)}
-            frontContent={
-              <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
-                <BookOpen className="size-10" />
-                <span className="text-xs font-semibold">Preview</span>
-              </div>
-            }
-            backContent={<span className="text-sm font-bold">Open</span>}
-          />
+          <>
+            <FlipButton
+              className="w-24 h-24 p-2 rounded-2xl shadow-lg"
+              frontClassName="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700"
+              backClassName="bg-primary text-primary-foreground"
+              onClick={() => onPreviewClick(book.previewPdfPath!, book.title)}
+              frontContent={
+                <div className="flex flex-col items-center justify-center gap-1 text-slate-700 dark:text-slate-300">
+                  <BookOpen className="size-10" />
+                  <span className="text-xs font-semibold">Preview</span>
+                </div>
+              }
+              backContent={<span className="text-sm font-bold">Open</span>}
+            />
+            <a href={book.previewPdfPath} download={`${book.title.replace(/\s+/g, '_')}.pdf`}>
+              <FlipButton
+                className="w-24 h-24 p-2 rounded-2xl shadow-lg"
+                frontClassName={buttonColors.front}
+                backClassName="bg-primary text-primary-foreground"
+                frontContent={
+                  <div className={`flex flex-col items-center justify-center gap-1 ${buttonColors.text}`}>
+                    <Download className="size-10" />
+                    <span className="text-xs font-semibold">Download</span>
+                  </div>
+                }
+                backContent={<span className="text-sm font-bold">Get PDF</span>}
+              />
+            </a>
+          </>
         ))}
 
       {!book.previewPdfPath && book.ebookPreviewLink && (
@@ -422,106 +498,110 @@ export function FeaturedBooksSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-8 md:gap-10 items-start">
-          <motion.div
-            key={`${selectedBook.id}-cover`}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ ...springTransition, delay: 0.02 }}
-            className="md:col-span-1 lg:col-span-4 flex flex-col items-center"
-          >
-            <ModernBookCover size={isMobile ? "md" : "lg"} color={selectedBook.id === 'wwok' ? 'yellow' : selectedBook.id === 'usuage' ? 'neutral' : selectedBook.id === 'gita-jayanti' ? 'orange' : 'zinc'} className="shadow-xl hover:shadow-zinc-400/30 dark:hover:shadow-black/50 transition-shadow duration-300">
-              <img
-                src={selectedBook.coverImage}
-                alt={selectedBook.title}
-                className="w-full h-full object-cover"
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-10 gap-8 md:gap-10 items-start min-h-[610px]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`${selectedBook.id}-cover`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+              transition={{ ...springTransition, delay: 0.02 }}
+              className="md:col-span-1 lg:col-span-4 flex flex-col items-center"
+            >
+              <ModernBookCover size={isMobile ? "md" : "lg"} color={selectedBook.color as any || 'zinc'} className="shadow-xl hover:shadow-zinc-400/30 dark:hover:shadow-black/50 transition-shadow duration-300">
+                <img
+                  src={selectedBook.coverImage}
+                  alt={selectedBook.title}
+                  className="w-full h-full object-cover"
+                />
+              </ModernBookCover>
+              <BookActionButtons
+                book={selectedBook}
+                whatsAppOrderUrl={whatsAppOrderUrl}
+                onPreviewClick={handlePreviewClick}
+                isMobileDevice={isMobile}
+                isMobileLayout={true}
               />
-            </ModernBookCover>
-            <BookActionButtons
-              book={selectedBook}
-              whatsAppOrderUrl={whatsAppOrderUrl}
-              onPreviewClick={handlePreviewClick}
-              isMobileDevice={isMobile}
-              isMobileLayout={true}
-            />
-          </motion.div>
+            </motion.div>
 
-          <motion.div
-            key={selectedBook.id}
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ ...springTransition, delay: 0.05 }}
-            className="md:col-span-1 lg:col-span-6 space-y-4"
-          >
-            <div className="flex flex-wrap gap-2">
-              {selectedBook.badges.map((badge, index) => (
-                <Badge key={index} variant="outline" className="text-xs px-2 py-0.5 border-purple-500/70 text-purple-600 dark:text-purple-400 dark:border-purple-500/50">
-                  {badge}
-                </Badge>
-              ))}
-            </div>
+            <motion.div
+              key={selectedBook.id}
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30, transition: { duration: 0.2 } }}
+              transition={{ ...springTransition, delay: 0.05 }}
+              className="md:col-span-1 lg:col-span-6 space-y-4"
+            >
+              <div className="flex flex-wrap gap-2">
+                {selectedBook.badges.map((badge, index) => (
+                  <Badge key={index} variant="outline" className="text-xs px-2 py-0.5 border-purple-500/70 text-purple-600 dark:text-purple-400 dark:border-purple-500/50">
+                    {badge}
+                  </Badge>
+                ))}
+              </div>
 
-            <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-800 dark:text-white">
-              {selectedBook.title}
-            </h3>
-            <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
-              {selectedBook.subtitle}
-            </p>
+              <h3 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-800 dark:text-white">
+                {selectedBook.title}
+              </h3>
+              <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
+                {selectedBook.subtitle}
+              </p>
 
-            <p className="text-base text-muted-foreground leading-relaxed pt-1 whitespace-pre-line">
-              {selectedBook.description}
-            </p>
+              <p className="text-base text-muted-foreground leading-relaxed pt-1 whitespace-pre-line">
+                {selectedBook.description}
+              </p>
 
-            {selectedBook.quote && (
-              <motion.div
-                key={`${selectedBook.id}-quote`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springTransition, delay: 0.07 }}
-                className="mt-4"
-              >
-                <BlockQuote quote={selectedBook.quote.text} author={selectedBook.quote.source} />
-              </motion.div>
-            )}
-
-            <div className="mt-6 flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
-              <div className="space-y-4 flex-grow">
-                {selectedBook.keyPoints && (
-                  <motion.ul
-                    key={`${selectedBook.id}-keypoints`}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ ...springTransition, delay: 0.1 }}
-                    className="space-y-2 text-muted-foreground"
-                  >
-                    {selectedBook.keyPoints.map((point, index) => (
-                      <li key={index} className="text-base md:text-lg flex items-center">
-                        {point.icon}
-                        <span>{point.title}</span>
-                      </li>
-                    ))}
-                  </motion.ul>
-                )}
-
+              {selectedBook.quote && (
                 <motion.div
-                  key={`${selectedBook.id}-price-info`}
+                  key={`${selectedBook.id}-quote`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ ...springTransition, delay: (selectedBook.keyPoints || selectedBook.quote) ? 0.12 : 0.07 }}
-                  className="mt-4 mb-2"
+                  transition={{ ...springTransition, delay: 0.07 }}
+                  className="mt-4"
                 >
-                  <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-                    {selectedBook.price}
-                  </span>
-                  {selectedBook.shippingNote && (
-                    <span className="ml-1 text-xs md:text-sm text-muted-foreground">
-                      ({selectedBook.shippingNote})
-                    </span>
-                  )}
+                  <BlockQuote quote={selectedBook.quote.text} author={selectedBook.quote.source} />
                 </motion.div>
+              )}
+
+              <div className="mt-6 flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+                <div className="space-y-4 flex-grow">
+                  {selectedBook.keyPoints && (
+                    <motion.ul
+                      key={`${selectedBook.id}-keypoints`}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ ...springTransition, delay: 0.1 }}
+                      className="space-y-2 text-muted-foreground"
+                    >
+                      {selectedBook.keyPoints.map((point, index) => (
+                        <li key={index} className="text-base md:text-lg flex items-center">
+                          {point.icon}
+                          <span>{point.title}</span>
+                        </li>
+                      ))}
+                    </motion.ul>
+                  )}
+
+                  <motion.div
+                    key={`${selectedBook.id}-price-info`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ ...springTransition, delay: (selectedBook.keyPoints || selectedBook.quote) ? 0.12 : 0.07 }}
+                    className="mt-4 mb-2"
+                  >
+                    <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                      {selectedBook.price}
+                    </span>
+                    {selectedBook.shippingNote && (
+                      <span className="ml-1 text-xs md:text-sm text-muted-foreground">
+                        ({selectedBook.shippingNote})
+                      </span>
+                    )}
+                  </motion.div>
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         <div className="mt-16 md:mt-20">
@@ -577,8 +657,8 @@ export function FeaturedBooksSection() {
                   whileTap={{ scale: isMobile ? 0.78 : 0.88 }}
                 >
                   <ModernBookCover 
-                    size="sm" 
-                    color={book.id === 'wwok' ? 'yellow' : book.id === 'usuage' ? 'neutral' : book.id === 'gita-jayanti' ? 'orange' : 'zinc'} 
+                    size="md" 
+                    color={book.color as any || 'zinc'} 
                     className="mx-auto"
                     forceRotate={isMobile && selectedBook.id === book.id}
                   >
@@ -588,7 +668,7 @@ export function FeaturedBooksSection() {
                       className="w-full h-full object-cover"
                     />
                   </ModernBookCover>
-                  <p className={`mt-2 text-center text-xs font-medium w-full truncate ${selectedBook.id === book.id ? 'text-purple-700 dark:text-purple-300' : 'text-muted-foreground'}`}>
+                  <p className={`mt-2 text-center text-xs font-medium w-[200px] mx-auto line-clamp-3 whitespace-normal ${selectedBook.id === book.id ? 'text-purple-700 dark:text-purple-300' : 'text-muted-foreground'}`}>
                     {book.title}
                   </p>
                 </motion.div>

@@ -95,7 +95,10 @@ export function Navbar() {
                         )}>
                             <ModeToggle className="origin-center" />
                         </div>
-                        <Link to="/" className={cn(
+                        <Link 
+                            to="/" 
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className={cn(
                             "font-serif font-bold text-xl transition-colors duration-300 hover:opacity-80",
                             isScrolled ? "text-foreground" : "text-foreground/90"
                         )}>
@@ -157,7 +160,11 @@ export function Navbar() {
                         <div className="scale-125 origin-left">
                             <ModeToggle />
                         </div>
-                        <Link to="/" className="font-serif font-bold text-xl text-foreground ml-2 hover:opacity-80 transition-opacity">
+                        <Link 
+                            to="/" 
+                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                            className="font-serif font-bold text-xl text-foreground ml-2 hover:opacity-80 transition-opacity"
+                        >
                             ISKM <span className="text-primary">Montreal</span>
                         </Link>
                     </div>

@@ -2,14 +2,6 @@ import { useEffect, useState } from 'react'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -83,28 +75,30 @@ export function NewsroomUpdates() {
       </div>
       <div className="flex flex-col md:flex-row gap-8">
         <div className="w-full md:w-1/2">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-3">
             {newsPosts.map((post) => (
-              <AccordionItem key={post.slug} value={post.slug}>
-                <AccordionTrigger className="text-left">
-                  <span className="flex items-center">
-                    📰 <span className="mx-2 text-gray-400">|</span> {post.title}
+              <AccordionItem key={post.slug} value={post.slug} className="border-b-2">
+                <AccordionTrigger className="text-left py-5 hover:no-underline">
+                  <span className="flex items-center gap-3 text-lg md:text-xl font-semibold">
+                    <span className="text-2xl">📰</span>
+                    <span className="text-muted-foreground">|</span>
+                    <span className="flex-1">{post.title}</span>
                     {post.tags && post.tags.length > 0 && (
-                        <Badge variant="outline" className="ml-2">
+                        <Badge variant="outline" className="ml-2 text-sm">
                         {post.tags[0]}
                         </Badge>
                     )}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent>
-                  <p className="mb-4">{post.description}</p>
+                <AccordionContent className="pt-4 pb-6">
+                  <p className="mb-6 text-base md:text-lg text-muted-foreground leading-relaxed">{post.description}</p>
                   <div className="flex justify-between items-center">
-                    <Button variant="outline" asChild>
+                    <Button variant="outline" asChild size="lg">
                         <Link to="/blog/$slug" params={{ slug: post.slug }}>Read More</Link>
                     </Button>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button variant="ghost">Share</Button>
+                        <Button variant="ghost" size="lg">Share</Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-80">
                         <div className="grid gap-4">
