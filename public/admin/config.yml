@@ -44,3 +44,16 @@ collections:
       - { label: "Position", name: "position", widget: "string" }
       - { label: "Avatar", name: "avatar", widget: "image" }
 
+  - name: "about_slides"
+    label: "About Slides"
+    folder: "src/content/about_slides"
+    create: true
+    slug: "{{slug}}"
+    extension: "json"
+    format: "json"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Order", name: "order", widget: "number", default: 0 }
+

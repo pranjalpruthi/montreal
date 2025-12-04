@@ -4,11 +4,28 @@ import { useRef } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Clock, Music, Users, Sparkles, ArrowRight } from 'lucide-react'
+import { SlidingNumber } from '@/components/animate-ui/primitives/texts/sliding-number'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
+
+
 gsap.registerPlugin(ScrollTrigger)
+
+function AnimatedTime({ time }: { time: string }) {
+  const [timePart, period] = time.split(' ');
+  const [hours, minutes] = timePart.split(':').map(Number);
+
+  return (
+    <div className="flex items-center font-mono text-lg font-bold text-primary">
+      <SlidingNumber number={hours} fromNumber={0} inViewOnce={false} />
+      <span className="mx-[1px]">:</span>
+      <SlidingNumber number={minutes} minimumIntegerDigits={2} fromNumber={0} inViewOnce={false} />
+      <span className="ml-1 text-sm font-medium text-muted-foreground">{period}</span>
+    </div>
+  );
+}
 
 export function Programs() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -79,15 +96,15 @@ export function Programs() {
               <CardContent className="space-y-6">
                 <div className="space-y-4">
                   {[
-                    { time: '4:30 AM', event: 'Mangala Arati' },
-                    { time: '7:15 AM', event: 'Guru Puja' },
-                    { time: '7:45 AM', event: 'Bhagavatam Class' },
-                    { time: '6:30 PM', event: 'Gaura Arati' },
-                    { time: '7:00 PM', event: 'Bhagavad-gita Class' },
+                    { time: '5:00 AM', event: 'Mangala Arati' },
+                    { time: '7:30 AM', event: 'Darshan Arati' },
+                    { time: '8:00 AM', event: 'Lecture on Srimad Bhagavatam' },
+                    { time: '7:00 PM', event: 'Sandhya Arati' },
+                    { time: '7:30 PM', event: 'Lecture on Bhagavad-gita' },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center justify-between p-3 rounded-lg hover:bg-accent/5 transition-colors border border-transparent hover:border-border/50">
                       <span className="font-medium">{item.event}</span>
-                      <Badge variant="secondary" className="font-mono text-xs">{item.time}</Badge>
+                      <AnimatedTime time={item.time} />
                     </div>
                   ))}
                 </div>
