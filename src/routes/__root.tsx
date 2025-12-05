@@ -117,7 +117,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false)
-    }, 2500)
+    }, 1500)
     return () => clearTimeout(timer)
   }, [])
 

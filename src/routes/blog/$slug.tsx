@@ -143,7 +143,7 @@ function BlogPostPage() {
               {/* Blurred background for ambient effect */}
               <div 
                 className="absolute inset-0 w-full h-full bg-cover bg-center blur-xl scale-110 opacity-50 dark:opacity-40"
-                style={{ backgroundImage: `url(${post.thumbnail})` }}
+                style={{ backgroundImage: `url("${post.thumbnail}")` }}
               />
               
               {/* Main contained image */}

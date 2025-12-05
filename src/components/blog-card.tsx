@@ -32,7 +32,7 @@ export function BlogCard({
             {/* Blurred background */}
             <div 
               className="absolute inset-0 w-full h-full bg-cover bg-center blur-xl scale-110 opacity-50 dark:opacity-40 transition-transform duration-300 group-hover:scale-125"
-              style={{ backgroundImage: `url(${thumbnail})` }}
+              style={{ backgroundImage: `url("${thumbnail}")` }}
             />
             
             {/* Main contained image */}

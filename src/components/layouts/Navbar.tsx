@@ -154,7 +154,7 @@ export function Navbar() {
             <MobileDock />
 
             {/* Mobile Top Bar - Simple header for mobile */}
-            <div className="fixed top-0 left-0 right-0 z-40 md:hidden bg-background/80 backdrop-blur-md border-b border-border">
+            <div className="fixed top-0 left-0 right-0 z-40 md:hidden bg-background/60 backdrop-blur-md border-b border-border">
                 <div className="flex items-center justify-between px-4 py-2">
                     <div className="flex items-center gap-3">
                         <div className="scale-125 origin-left">
