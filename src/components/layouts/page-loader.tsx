@@ -5,7 +5,7 @@ import BreathingText from '@/components/fancy/text/breathing-text';
  * @returns {JSX.Element} The rendered initial page loader.
  */
 export const InitialPageLoader = () => (
-  <div className="fixed inset-0 flex flex-col justify-center items-center h-screen w-screen bg-zinc-950 z-50 text-center p-4">
+  <div className="fixed inset-0 flex flex-col justify-center items-center h-screen w-full bg-zinc-950 z-50 text-center p-4">
     <img 
       src="https://eboutz7r2t.ufs.sh/f/CIaDvBjhtHOFeZLejZABcIFWLYH3tXMxo86V2KUjQpsfOwTi" 
       onError={(e) => { e.currentTarget.src = "/iskm-montreal.webp" }}
