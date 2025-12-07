@@ -7,6 +7,7 @@ import { About } from '@/components/homepage/About'
 import { Programs } from '@/components/homepage/Programs'
 import { Resources } from '@/components/homepage/Resources'
 import { SlokaLearningSection } from '@/components/homepage/sloka-learning-section'
+import { ShortsSection } from '@/components/homepage/shorts-section'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -20,6 +21,7 @@ function Home() {
       </a>
       <Hero />
       <FeaturedSection />
+      <ShortsSection />
       <NewsroomUpdates />
       <FeaturedBooksSection />
       <SlokaLearningSection />

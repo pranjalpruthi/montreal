@@ -5,7 +5,7 @@ import { ModernBookCover } from '@/components/cuicui/modern-book-cover';
 import { Badge } from '@/components/ui/badge';
 import { FlipButton } from '@/components/animate-ui/buttons/flip';
 import { LiquidButton } from '@/components/animate-ui/buttons/liquid';
-import { BookOpen, Languages, CheckCircle, Eye, Download, Heart, QuoteIcon } from 'lucide-react';
+import { BookOpen, Eye, Download, Heart, QuoteIcon } from 'lucide-react';
 import { IconBrandWhatsapp } from '@tabler/icons-react';
 import {
   Sheet,
@@ -56,10 +56,7 @@ interface BookDetailData {
     text: string;
     source: string;
   };
-  keyPoints?: {
-    title: string;
-    icon: React.ReactNode;
-  }[];
+
   color?: string;
 }
 
@@ -71,20 +68,7 @@ const gitaJayantiBookDetails: BookDetailData = {
   coverImage: "/thumbnails/bg-fr-cover.jpg",
   description: "Sponsor or purchase a Bhagavad-gītā this Gītā Jayantī. 3,000 copies arriving soon. Your contribution places the absolute truth in someone's hands.",
   badges: ["Gītā Jayantī", "Special Offer", "Limited Time"],
-  keyPoints: [
-    {
-      title: "Distribute Wisdom",
-      icon: <BookOpen className="h-5 w-5 mr-2 text-orange-500" />
-    },
-    {
-      title: "Mercy of Krishna",
-      icon: <Heart className="h-5 w-5 mr-2 text-red-500" />
-    },
-    {
-      title: "Global Impact",
-      icon: <Languages className="h-5 w-5 mr-2 text-blue-500" />
-    }
-  ],
+
   productLink: "https://square.link/u/iLHo1ycl?src=sheet",
   whatsAppNumber: "12633807303",
   baseWhatsAppMessageTemplate: `Hare Kṛṣṇa! prabhu
@@ -110,20 +94,7 @@ const ia77BookDetails: BookDetailData = {
   coverImage: ia77Cover,
   description: "A definitive guide navigating spiritual initiation in ISKCON. Explores the Rtvik system based on evidence and wisdom, fostering clarity, unity, and honoring Srila Prabhupada's legacy.",
   badges: ["Essential Reading", "Printed Book", "Multilingual Edition", "French Version Available"],
-  keyPoints: [
-    {
-      title: "Core Principles Explored",
-      icon: <BookOpen className="h-5 w-5 mr-2 text-pink-500" />
-    },
-    {
-      title: "Global Accessibility",
-      icon: <Languages className="h-5 w-5 mr-2 text-blue-500" />
-    },
-    {
-      title: "Preserving Spiritual Integrity",
-      icon: <CheckCircle className="h-5 w-5 mr-2 text-green-500" />
-    }
-  ],
+
   ebookPreviewLink: "https://heyzine.com/flip-book/7463036c24.html#page/18",
   previewPdfPath: ia77Pdf,
   playlistLink: "https://youtube.com/playlist?list=PLQGHF3mp1o78H-_CwnooAqyfYo8wznJjw&feature=shared",
@@ -151,20 +122,7 @@ const wwokBookDetails: BookDetailData = {
   coverImage: wwokCover,
   description: "Embark on a profound spiritual quest. This illuminating book delves into Vedic philosophy, presenting conclusive evidence that establishes Lord Krishna as the Supreme Personality of Godhead, the ultimate object of all worship.",
   badges: ["Spiritual Guidance", "Vedic Philosophy", "Essential Read", "French Version Available"],
-  keyPoints: [
-    {
-      title: "Krishna's Supreme Position",
-      icon: <BookOpen className="h-5 w-5 mr-2 text-orange-500" />
-    },
-    {
-      title: "Guidance from Srila Prabhupāda",
-      icon: <CheckCircle className="h-5 w-5 mr-2 text-teal-500" />
-    },
-    {
-      title: "Clarity for Spiritual Seekers",
-      icon: <Languages className="h-5 w-5 mr-2 text-indigo-500" />
-    }
-  ],
+
   previewPdfPath: wwokPdf,
 
   whatsAppNumber: "12633807303",
@@ -191,20 +149,7 @@ const usuageBookDetails: BookDetailData = {
   coverImage: usuageCover,
   description: "A pivotal publication addressing ISKM's stance on using books published by the BBT after 1977. Examines historical context and presents ISKM's perspective on the fidelity and usage of these editions.",
   badges: ["ISKM Stance", "BBT Books", "Post-1977"],
-  keyPoints: [
-    {
-      title: "Historical Context",
-      icon: <BookOpen className="h-5 w-5 mr-2 text-red-500" />
-    },
-    {
-      title: "ISKM's Perspective",
-      icon: <CheckCircle className="h-5 w-5 mr-2 text-green-600" />
-    },
-    {
-      title: "Preserving Teachings",
-      icon: <Languages className="h-5 w-5 mr-2 text-blue-600" />
-    }
-  ],
+
   previewPdfPath: usuagePdf,
   whatsAppNumber: "12633807303",
   baseWhatsAppMessageTemplate: `Hare Kṛṣṇa! prabhu
@@ -229,20 +174,7 @@ const adReplyBookDetails: BookDetailData = {
   coverImage: adReplyCover,
   description: "The publication which will be remembered as having shook ISKCON to its very core. The ultimate showdown between Amogh Līlā dāsa (ISKCON) and Tattvavit dāsa (ISKM). Preserved in its entirety, captured with every argument, every counterpoint, and with every subtle nuance intact.",
   badges: ["Spiritual Hurricane", "Debate", "Uncompromising Truth"],
-  keyPoints: [
-    {
-      title: "Complete Record",
-      icon: <CheckCircle className="h-5 w-5 mr-2 text-red-500" />
-    },
-    {
-      title: "Voices Heard Fully",
-      icon: <Languages className="h-5 w-5 mr-2 text-blue-500" />
-    },
-    {
-      title: "Devotion & Conviction",
-      icon: <Heart className="h-5 w-5 mr-2 text-purple-500" />
-    }
-  ],
+
   previewPdfPath: adReplyPdf,
   whatsAppNumber: "12633807303",
   baseWhatsAppMessageTemplate: `Hare Kṛṣṇa! prabhu
@@ -565,28 +497,13 @@ export function FeaturedBooksSection() {
 
               <div className="mt-6 flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
                 <div className="space-y-4 flex-grow">
-                  {selectedBook.keyPoints && (
-                    <motion.ul
-                      key={`${selectedBook.id}-keypoints`}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ ...springTransition, delay: 0.1 }}
-                      className="space-y-2 text-muted-foreground"
-                    >
-                      {selectedBook.keyPoints.map((point, index) => (
-                        <li key={index} className="text-base md:text-lg flex items-center">
-                          {point.icon}
-                          <span>{point.title}</span>
-                        </li>
-                      ))}
-                    </motion.ul>
-                  )}
+
 
                   <motion.div
                     key={`${selectedBook.id}-price-info`}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ ...springTransition, delay: (selectedBook.keyPoints || selectedBook.quote) ? 0.12 : 0.07 }}
+                    transition={{ ...springTransition, delay: selectedBook.quote ? 0.12 : 0.07 }}
                     className="mt-4 mb-2"
                   >
                     <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">

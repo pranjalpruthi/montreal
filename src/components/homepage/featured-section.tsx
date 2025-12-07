@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Play, PlayCircle } from "lucide-react";
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import { GlowEffect } from "@/components/animate-ui/effects/glow-effect";
 
@@ -28,7 +28,6 @@ const VideoFeature = ({
 }: VideoFeatureProps) => {
   const [isInteracted, setIsInteracted] = useState(false);
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   const silentUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`;
   const interactiveUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1`;
@@ -95,16 +94,14 @@ const VideoFeature = ({
         <div
           className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border border-border/10"
         >
-          {isInView && (
-            <iframe
-              key={isInteracted ? 'interactive' : 'silent'}
-              className="w-full h-full"
-              src={isInteracted ? interactiveUrl : silentUrl}
-              title={title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          )}
+          <iframe
+            key={isInteracted ? 'interactive' : 'silent'}
+            className="w-full h-full"
+            src={isInteracted ? interactiveUrl : silentUrl}
+            title={title}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
           {!isInteracted && (
             <div className="absolute inset-0 flex items-center justify-center cursor-pointer bg-black/10 group-hover:bg-black/30 transition-colors duration-300">
               <Play className="h-16 w-16 text-white/70 drop-shadow-lg transition-transform duration-300 group-hover:scale-110" />
