@@ -14,12 +14,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 const config = defineConfig({
   plugins: [
     // devtools(),
-    nitro({
-      runtimeConfig: {
-        youtubeApiKey: process.env.YOUTUBE_API_KEY,
-        youtubeChannelId: process.env.YOUTUBE_CHANNEL_ID,
-      }
-    }),
+    nitro(),
     // this is the plugin that enables path aliases
     viteTsConfigPaths({
       projects: ['./tsconfig.json'],
