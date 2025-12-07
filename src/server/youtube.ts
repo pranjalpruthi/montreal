@@ -1,8 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { ofetch } from 'ofetch';
-
-const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
-
+import Redis from 'ioredis';
 
 export interface YouTubeShort {
   id: string;
@@ -10,48 +8,60 @@ export interface YouTubeShort {
   thumbnail: string;
 }
 
-let cache: {
-  data: YouTubeShort[];
-  timestamp: number;
-  fetchCount: number; // Track API calls
-} = {
+const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
+const CACHE_KEY = 'youtube:shorts:v1';
+
+// 1. Initialize Redis
+// Logic: If REDIS_URL exists, connect. 
+// "lazyConnect" ensures it doesn't crash the build process if the DB is unreachable.
+// "tls" is auto-enabled if the URL starts with "rediss://" (Upstash).
+const redis = process.env.REDIS_URL
+  ? new Redis(process.env.REDIS_URL, {
+      lazyConnect: true, 
+      tls: process.env.REDIS_URL.startsWith('rediss://') ? {} : undefined,
+    })
+  : null;
+
+// 2. Fallback Memory Cache (For Local Development)
+let localCache: { data: YouTubeShort[]; timestamp: number } = {
   data: [],
   timestamp: 0,
-  fetchCount: 0
 };
 
 export const getYouTubeShorts = createServerFn({ method: 'GET' })
   .handler(async () => {
     const now = Date.now();
-    
-    // Access environment variables using bracket notation to prevent Vite from 
-    // replacing them with static values at build time if they are missing locally
     const API_KEY = process.env['YOUTUBE_API_KEY'];
     const CHANNEL_ID = process.env['YOUTUBE_CHANNEL_ID'];
 
-    if (!API_KEY || !CHANNEL_ID) {
-      console.error('Environment variables check:', {
-        hasApiKey: !!API_KEY,
-        hasChannelId: !!CHANNEL_ID,
-      });
-      throw new Error('Missing YouTube API credentials in environment variables');
+    if (!API_KEY || !CHANNEL_ID) throw new Error('Missing YouTube API Credentials');
+
+    // --- STEP A: TRY TO READ CACHE ---
+    if (redis) {
+      try {
+        const cachedString = await redis.get(CACHE_KEY);
+        if (cachedString) {
+          const cached = JSON.parse(cachedString);
+          // Verify age (Optional safety check, since Redis expires keys automatically)
+          if (now - cached.timestamp < CACHE_DURATION) {
+            console.log('⚡ Redis Cache Hit');
+            return cached.data;
+          }
+        }
+      } catch (e) {
+        console.warn('Redis connection failed, continuing to API...', e);
+      }
+    } else {
+      // Local Dev: Check memory variable
+      if (localCache.data.length > 0 && (now - localCache.timestamp < CACHE_DURATION)) {
+        console.log('⚡ Local Memory Cache Hit');
+        return localCache.data;
+      }
     }
 
-    // Check cache validity
-    if (cache.data.length > 0 && (now - cache.timestamp < CACHE_DURATION)) {
-      console.log('⚡ Cache hit - serving to user', {
-        cacheAge: Math.round((now - cache.timestamp) / 1000 / 60), // minutes
-        totalFetches: cache.fetchCount
-      });
-      return cache.data;
-    }
-
-    // Cache miss - fetch from API
-    console.log('🔄 Cache expired - fetching from YouTube API', {
-      lastFetch: new Date(cache.timestamp).toISOString(),
-      fetchNumber: cache.fetchCount + 1
-    });
-
+    // --- STEP B: FETCH FROM YOUTUBE ---
+    console.log('🔄 Cache Empty/Expired - Calling YouTube API...');
+    
     try {
       const response = await ofetch('https://www.googleapis.com/youtube/v3/search', {
         query: {
@@ -63,13 +73,10 @@ export const getYouTubeShorts = createServerFn({ method: 'GET' })
           videoDuration: 'short',
           key: API_KEY,
         },
-        timeout: 10000, // 10s timeout
+        timeout: 10000,
       });
 
-      if (!response.items?.length) {
-        console.warn('No shorts returned from API');
-        return cache.data || [];
-      }
+      if (!response.items?.length) return [];
 
       const shorts = response.items.map((item: any) => ({
         id: item.id.videoId,
@@ -77,25 +84,30 @@ export const getYouTubeShorts = createServerFn({ method: 'GET' })
         thumbnail: item.snippet.thumbnails.medium.url,
       }));
 
-      // Update cache with metrics
-      cache = {
-        data: shorts,
-        timestamp: now,
-        fetchCount: cache.fetchCount + 1
-      };
+      // --- STEP C: WRITE TO CACHE ---
+      const cacheObject = { data: shorts, timestamp: now };
 
-      console.log(`✅ Cached ${shorts.length} shorts - Quota used: 100 units`);
+      if (redis) {
+        // Save to Redis
+        // 'EX' 86400 = Auto-delete after 24 hours
+        await redis.set(CACHE_KEY, JSON.stringify(cacheObject), 'EX', 86400);
+        console.log(`✅ Saved ${shorts.length} shorts to Redis`);
+      } else {
+        // Save to Local Memory
+        localCache = cacheObject;
+        console.log(`✅ Saved ${shorts.length} shorts to Local Memory`);
+      }
+
       return shorts;
 
     } catch (error) {
-      console.error('YouTube API error:', error);
+      console.error('API Error:', error);
       
-      // Serve stale cache on error (graceful degradation)
-      if (cache.data.length > 0) {
-        console.warn('⚠️ Serving stale cache due to API error');
-        return cache.data;
+      // Graceful Fallback: Try to serve stale data if API fails
+      if (redis) {
+        const stale = await redis.get(CACHE_KEY);
+        if (stale) return JSON.parse(stale).data;
       }
-      
-      throw error;
+      return localCache.data || [];
     }
   });
