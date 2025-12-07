@@ -1,7 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Youtube, Search } from 'lucide-react'
+import { Youtube, Search, Heart } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
@@ -40,12 +40,11 @@ export function Navbar() {
 
     const navLinks = [
         { to: '/', label: 'Home' },
-        { to: '/', hash: 'about', label: 'About' },
         { to: '/', hash: 'programs', label: 'Programs' },
-        { to: '/', hash: 'resources', label: 'Resources' },
+        { to: '/resources', label: 'Resources' },
         { to: '/community', label: 'Community' },
         { to: '/blog', label: 'Blog' },
-        { to: '/', hash: 'contact', label: 'Contact' },
+        { to: '/', hash: 'about', label: 'About' },
     ]
 
     return (
@@ -140,6 +139,12 @@ export function Navbar() {
                             <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
                                 <Youtube className="h-5 w-5" />
                             </a>
+                        </Button>
+                        <Button asChild size="sm" className="rounded-full px-4 font-medium bg-pink-600 hover:bg-pink-700 text-white shadow-lg hover:shadow-pink-600/25 transition-all hover:-translate-y-0.5">
+                            <Link to="/donate">
+                                <Heart className="h-4 w-4 mr-2 fill-current" />
+                                Donate
+                            </Link>
                         </Button>
                         <Button asChild size="sm" className="rounded-full px-6 font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
                             <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">

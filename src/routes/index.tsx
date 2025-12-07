@@ -20,13 +20,13 @@ function Home() {
         Skip to main content
       </a>
       <Hero />
-      <FeaturedSection />
-      <ShortsSection />
       <NewsroomUpdates />
-      <FeaturedBooksSection />
-      <SlokaLearningSection />
       <About />
       <Programs />
+      <FeaturedSection />
+      <SlokaLearningSection />
+      <ShortsSection />
+      <FeaturedBooksSection />
       <Resources />
     </>
   )

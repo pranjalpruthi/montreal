@@ -31,6 +31,11 @@ interface MarqueeProps extends React.ComponentPropsWithoutRef<"div"> {
    * @default 4
    */
   repeat?: number
+  /**
+   * Whether to manually pause the animation
+   * @default false
+   */
+  paused?: boolean
 }
 
 export function Marquee({
@@ -63,6 +68,7 @@ export function Marquee({
               "animate-marquee flex-row": !vertical,
               "animate-marquee-vertical flex-col": vertical,
               "group-hover:[animation-play-state:paused]": pauseOnHover,
+              "[animation-play-state:paused]": props.paused,
               "[animation-direction:reverse]": reverse,
             })}
           >

@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { Youtube, Mail, MapPin, Facebook, Instagram, Phone, ShoppingBag, Heart, Video, Mic, Music } from 'lucide-react'
 import { motion } from 'motion/react'
+import CurvedLoop from '@/components/reactbits/CurvedLoop'
 
 export function Footer() {
     const containerVariants = {
@@ -32,11 +33,11 @@ export function Footer() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="container mx-auto px-4 md:px-8 py-16 max-w-7xl relative z-10"
+                className="container mx-auto px-4 md:px-8 pt-16 pb-8 max-w-7xl relative z-10"
             >
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 md:gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8">
                     {/* Brand & Quote */}
-                    <motion.div variants={itemVariants} className="lg:col-span-2 space-y-6">
+                    <motion.div variants={itemVariants} className="col-span-2 md:col-span-1 lg:col-span-2 space-y-6">
                         <div className="flex items-center gap-3 mb-2">
                              <img src="/iskm-montreal.png" alt="ISKM Logo" className="h-12 w-12 object-contain" />
                              <h3 className="text-2xl font-bold text-foreground font-serif">ISKM Montreal</h3>
@@ -81,7 +82,7 @@ export function Footer() {
                     </motion.div>
 
                     {/* Contact & Social */}
-                    <motion.div variants={itemVariants} className="space-y-6">
+                    <motion.div variants={itemVariants} className="col-span-2 md:col-span-1 space-y-6">
                         <h4 className="font-bold text-foreground uppercase tracking-wider text-sm border-b border-border pb-2 inline-block">Connect</h4>
                         <div className="flex flex-col gap-4 text-sm text-muted-foreground">
                             <a href="mailto:admin@iskm.ca" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
@@ -141,9 +142,34 @@ export function Footer() {
                     </motion.div>
                 </div>
 
+            </motion.div>
+
+            {/* Curved Loop Mantra */}
+            <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="w-full overflow-hidden my-4 relative z-10"
+            >
+                <CurvedLoop 
+                    marqueeText="Hare ✦ Krṣṇa ✦ Hare ✦ Krṣṇa ✦ Krṣṇa ✦ Krṣṇa ✦ Hare ✦ Hare ✦ Hare ✦ Rāma ✦ Hare ✦ Rāma ✦ Rāma ✦ Rāma ✦ Hare ✦ Hare ✦ "
+                    speed={3}
+                    curveAmount={230}
+                    direction="right"
+                    interactive={true}
+                />
+            </motion.div>
+
+            <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="container mx-auto px-4 md:px-8 pb-16 max-w-7xl relative z-10"
+            >
                 <motion.div 
                     variants={itemVariants}
-                    className="mt-16 pt-8 border-t border-border text-center text-sm text-muted-foreground/60 flex flex-col md:flex-row justify-between items-center gap-4"
+                    className="pt-8 border-t border-border text-center text-sm text-muted-foreground/60 flex flex-col md:flex-row justify-between items-center gap-4"
                 >
                     <p>&copy; {new Date().getFullYear()} International Sri Krishna Mandir Montreal. All rights reserved.</p>
                     <div className="flex gap-6">

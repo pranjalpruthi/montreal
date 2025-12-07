@@ -15,6 +15,7 @@ import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopIndexRouteImport } from './routes/shop/index'
+import { Route as ResourcesIndexRouteImport } from './routes/resources/index'
 import { Route as EventsIndexRouteImport } from './routes/events/index'
 import { Route as CentersIndexRouteImport } from './routes/centers/index'
 import { Route as BlogIndexRouteImport } from './routes/blog/index'
@@ -58,6 +59,11 @@ const IndexRoute = IndexRouteImport.update({
 const ShopIndexRoute = ShopIndexRouteImport.update({
   id: '/shop/',
   path: '/shop/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/resources/',
+  path: '/resources/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogIndexRoute
   '/centers': typeof CentersIndexRoute
   '/events': typeof EventsIndexRoute
+  '/resources': typeof ResourcesIndexRoute
   '/shop': typeof ShopIndexRoute
 }
 export interface FileRoutesByTo {
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/centers': typeof CentersIndexRoute
   '/events': typeof EventsIndexRoute
+  '/resources': typeof ResourcesIndexRoute
   '/shop': typeof ShopIndexRoute
 }
 export interface FileRoutesById {
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/centers/': typeof CentersIndexRoute
   '/events/': typeof EventsIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
   '/shop/': typeof ShopIndexRoute
 }
 export interface FileRouteTypes {
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/centers'
     | '/events'
+    | '/resources'
     | '/shop'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/centers'
     | '/events'
+    | '/resources'
     | '/shop'
   id:
     | '__root__'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/centers/'
     | '/events/'
+    | '/resources/'
     | '/shop/'
   fileRoutesById: FileRoutesById
 }
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   BlogIndexRoute: typeof BlogIndexRoute
   CentersIndexRoute: typeof CentersIndexRoute
   EventsIndexRoute: typeof EventsIndexRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
   ShopIndexRoute: typeof ShopIndexRoute
 }
 
@@ -332,6 +345,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/': {
+      id: '/resources/'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events/': {
@@ -455,6 +475,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogIndexRoute: BlogIndexRoute,
   CentersIndexRoute: CentersIndexRoute,
   EventsIndexRoute: EventsIndexRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
   ShopIndexRoute: ShopIndexRoute,
 }
 export const routeTree = rootRouteImport

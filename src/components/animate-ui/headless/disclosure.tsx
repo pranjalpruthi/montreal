@@ -66,7 +66,8 @@ function DisclosureButton<TTag extends React.ElementType = 'button'>(
 }
 
 type DisclosurePanelProps<TTag extends React.ElementType = typeof motion.div> =
-  Pick<DisclosurePanelPrimitiveProps<TTag>, 'static' | 'unmount' | 'children'> &
+  Pick<DisclosurePanelPrimitiveProps<TTag>, 'children'> &
+  Partial<Pick<DisclosurePanelPrimitiveProps<TTag>, 'static' | 'unmount'>> &
     Omit<HTMLMotionProps<'div'>, 'children'> & {
       transition?: Transition;
       as?: TTag;
