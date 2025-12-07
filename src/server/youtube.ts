@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start';
 import { ofetch } from 'ofetch';
+import { useRuntimeConfig } from 'nitro/runtime';
 
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
 
@@ -23,8 +24,11 @@ let cache: {
 export const getYouTubeShorts = createServerFn({ method: 'GET' })
   .handler(async () => {
     const now = Date.now();
-    const API_KEY = process.env.YOUTUBE_API_KEY || import.meta.env.YOUTUBE_API_KEY;
-    const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID || import.meta.env.YOUTUBE_CHANNEL_ID;
+    
+    // Use Nitro runtime config for proper environment variable access
+    const config = useRuntimeConfig();
+    const API_KEY = config.youtubeApiKey as string;
+    const CHANNEL_ID = config.youtubeChannelId as string;
 
     if (!API_KEY || !CHANNEL_ID) {
       throw new Error('Missing YouTube API credentials in environment variables');
