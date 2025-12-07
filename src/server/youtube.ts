@@ -11,16 +11,26 @@ export interface YouTubeShort {
 const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours
 const CACHE_KEY = 'youtube:shorts:v1';
 
-// 1. Initialize Redis
-// Logic: If REDIS_URL exists, connect. 
-// "lazyConnect" ensures it doesn't crash the build process if the DB is unreachable.
-// "tls" is auto-enabled if the URL starts with "rediss://" (Upstash).
-const redis = process.env.REDIS_URL
-  ? new Redis(process.env.REDIS_URL, {
-      lazyConnect: true, 
-      tls: process.env.REDIS_URL.startsWith('rediss://') ? {} : undefined,
-    })
-  : null;
+// 1. Initialize Redis securely
+// Use bracket notation to ensure Vite/Rollup doesn't replace these with static values during build
+const getRedisClient = () => {
+  const redisUrl = process.env['REDIS_URL'];
+  
+  if (!redisUrl) return null;
+
+  try {
+    return new Redis(redisUrl, {
+      lazyConnect: true, // Don't connect immediately
+      tls: redisUrl.startsWith('rediss://') ? {} : undefined,
+      maxRetriesPerRequest: 1,
+    });
+  } catch (err) {
+    console.error('Failed to initialize Redis client:', err);
+    return null;
+  }
+};
+
+const redis = getRedisClient();
 
 // 2. Fallback Memory Cache (For Local Development)
 let localCache: { data: YouTubeShort[]; timestamp: number } = {
@@ -34,7 +44,14 @@ export const getYouTubeShorts = createServerFn({ method: 'GET' })
     const API_KEY = process.env['YOUTUBE_API_KEY'];
     const CHANNEL_ID = process.env['YOUTUBE_CHANNEL_ID'];
 
-    if (!API_KEY || !CHANNEL_ID) throw new Error('Missing YouTube API Credentials');
+    if (!API_KEY || !CHANNEL_ID) {
+        console.error('❌ Missing Credentials on Server', {
+            hasApiKey: !!API_KEY,
+            hasChannelId: !!CHANNEL_ID,
+            envKeys: Object.keys(process.env).filter(k => k.startsWith('YOUTUBE'))
+        });
+        throw new Error('Missing YouTube API Credentials in environment variables');
+    }
 
     // --- STEP A: TRY TO READ CACHE ---
     if (redis) {
