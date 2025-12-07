@@ -24,9 +24,10 @@ export const getYouTubeShorts = createServerFn({ method: 'GET' })
   .handler(async () => {
     const now = Date.now();
     
-    // Access environment variables - these will be available on Vercel's server runtime
-    const API_KEY = process.env.YOUTUBE_API_KEY;
-    const CHANNEL_ID = process.env.YOUTUBE_CHANNEL_ID;
+    // Access environment variables using bracket notation to prevent Vite from 
+    // replacing them with static values at build time if they are missing locally
+    const API_KEY = process.env['YOUTUBE_API_KEY'];
+    const CHANNEL_ID = process.env['YOUTUBE_CHANNEL_ID'];
 
     if (!API_KEY || !CHANNEL_ID) {
       console.error('Environment variables check:', {
