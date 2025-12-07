@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getYouTubeShorts, type YouTubeShort } from '@/server/youtube';
+import { getYouTubeShorts } from '@/server/youtube';
 import { Play, ExternalLink, Sparkles, Pause, ChevronDown } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import gsap from 'gsap';
@@ -25,7 +25,14 @@ import {
   DisclosurePanel,
 } from "@/components/animate-ui/headless/disclosure";
 
+interface YouTubeShort {
+  id: string;
+  title: string;
+  thumbnail: string;
+}
 
+// Columns configuration
+const columns = 3;
 
 const ErrorState = () => (
   <div className="flex flex-col items-center justify-center py-20 px-4">
@@ -67,7 +74,7 @@ export function ShortsSection() {
     };
   }, []);
   
-  const { data: shorts = [], isLoading, error } = useQuery<YouTubeShort[]>({
+  const { data: shorts = [], isLoading } = useQuery<YouTubeShort[]>({
     queryKey: ['youtube-shorts'],
     queryFn: getYouTubeShorts,
     staleTime: 1000 * 60 * 60 * 24,
@@ -100,7 +107,6 @@ export function ShortsSection() {
   }, { scope: containerRef, dependencies: [isLoading, shorts.length] });
 
   if (isLoading) return <div className="h-[600px] w-full bg-muted/10 animate-pulse rounded-xl" />;
-  if (error) return <ErrorState />;
   if (!shorts?.length) return null;
 
   return (
