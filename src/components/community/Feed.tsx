@@ -180,7 +180,7 @@ export function Feed() {
               </div>
               <div>
                 <h3 className="text-xl font-bold">Community Updates</h3>
-                <p className="text-sm text-muted-foreground">Latest from ISKCON Montreal</p>
+                <p className="text-sm text-muted-foreground">Latest from ISKM Montreal</p>
               </div>
             </div>
 
