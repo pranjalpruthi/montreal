@@ -59,7 +59,7 @@ function Community() {
                       <p className="text-white/70 dark:text-muted-foreground">4625 Rue Clark</p>
                       <p className="text-white/70 dark:text-muted-foreground">Montréal, QC H2T 2T3, Canada</p>
                       <a
-                        href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6"
+                        href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#FF8C00] hover:text-[#FF8C00]/80 dark:text-accent dark:hover:text-accent/80 text-sm mt-2 inline-flex items-center gap-1"

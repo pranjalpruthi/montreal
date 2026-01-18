@@ -13,7 +13,9 @@ import {
   ShoppingBag, 
   MapPin,
   BookOpen,
-  Users
+  Users,
+  Library
+
 } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { gsap } from 'gsap';
@@ -61,6 +63,7 @@ const ITEMS: DockItem[] = [
       { label: 'Shop', href: '/shop', icon: ShoppingBag, colorClass: 'text-orange-500', bgClass: 'bg-orange-500/10 group-hover:bg-orange-500/20' },
       { label: 'Centers', href: '/centers', icon: MapPin, colorClass: 'text-green-500', bgClass: 'bg-green-500/10 group-hover:bg-green-500/20' },
       { label: 'Community', href: '/community', icon: Users, colorClass: 'text-purple-500', bgClass: 'bg-purple-500/10 group-hover:bg-purple-500/20' },
+      { label: 'Resources', href: '/resources', icon: Library, colorClass: 'text-indigo-500', bgClass: 'bg-indigo-500/10 group-hover:bg-indigo-500/20' },
       { label: 'Calendar', href: '/calendar', icon: Calendar, colorClass: 'text-red-500', bgClass: 'bg-red-500/10 group-hover:bg-red-500/20' },
     ]
   },
@@ -116,7 +119,7 @@ export function MobileDock() {
 
   return (
     <div className='fixed bottom-0 left-0 z-50 w-full md:hidden' ref={containerRef}>
-      <div className='h-full w-full border-t border-border/20 bg-background/30 backdrop-blur-xl shadow-[0_-10px_40px_rgba(0,0,0,0.05)] pb-2 pt-2 rounded-t-3xl'>
+      <div className='h-full w-full border-t border-gray-200 dark:border-border/20 bg-white/90 dark:bg-background/40 backdrop-blur-xl shadow-[0_-10px_40px_rgba(0,0,0,0.05)] pb-2 pt-2 rounded-t-3xl'>
         <div className='overflow-hidden h-0' ref={contentWrapperRef}>
           <div ref={contentRef} className='p-2'>
             {ITEMS.map((item) => {

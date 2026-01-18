@@ -63,7 +63,7 @@ export function Footer() {
                             <li><Link to="/" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>Home</Link></li>
                             <li><Link to="/" hash="about" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>About Us</Link></li>
                             <li><Link to="/" hash="programs" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>Programs</Link></li>
-                            <li><Link to="/" hash="resources" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>Resources</Link></li>
+                            <li><Link to="/resources" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>Resources</Link></li>
                             <li><Link to="/" hash="contact" className="hover:text-primary transition-colors flex items-center gap-2 group"><span className="h-1.5 w-1.5 rounded-full bg-accent group-hover:scale-125 transition-transform"></span>Contact</Link></li>
                         </ul>
                     </motion.div>
@@ -97,7 +97,7 @@ export function Footer() {
                                 </div>
                                 +1 (263) 380-7303
                             </a>
-                            <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
+                            <a href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-primary transition-colors group p-2 -ml-2 rounded-lg hover:bg-accent/5">
                                 <div className="p-2 bg-background dark:bg-card rounded-full shadow-sm group-hover:shadow-md transition-all border border-border">
                                     <MapPin className="h-4 w-4 text-primary" />
                                 </div>

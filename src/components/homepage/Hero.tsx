@@ -178,7 +178,7 @@ export function Hero() {
 
             <div className="flex flex-row gap-2 sm:gap-4 pt-4 w-full sm:w-auto max-w-md sm:max-w-none mx-auto lg:mx-0">
               <Button asChild size="lg" className="flex-1 sm:flex-none h-10 sm:h-11 px-2 sm:px-8 text-sm sm:text-base group hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl">
-                <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                <a href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
                   <MapPin className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:animate-bounce" />
                   Visit Temple
                 </a>

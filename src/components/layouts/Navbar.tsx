@@ -147,7 +147,7 @@ export function Navbar() {
                             </Link>
                         </Button>
                         <Button asChild size="sm" className="rounded-full px-6 font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 transition-all hover:-translate-y-0.5">
-                            <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
+                            <a href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8" target="_blank" rel="noopener noreferrer">
                                 Visit
                             </a>
                         </Button>
@@ -180,7 +180,7 @@ export function Navbar() {
                             </a>
                         </Button>
                         <Button asChild size="sm" className="rounded-full shadow-sm">
-                            <a href="https://maps.app.goo.gl/dRyY7aa3nnvndq5t6" target="_blank" rel="noopener noreferrer">
+                            <a href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8" target="_blank" rel="noopener noreferrer">
                                 Visit
                             </a>
                         </Button>
