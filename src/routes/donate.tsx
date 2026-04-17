@@ -10,7 +10,6 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { 
   Heart, 
-  ExternalLink, 
   Quote, 
   Mail, 
   Sparkles, 
@@ -25,69 +24,49 @@ import {
 import bannerImage from '/iskm-montreal-banner.png'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 export const Route = createFileRoute('/donate')({
   component: DonatePage,
 })
 
-// --- Patreon Tier Data ---
+// --- PayPal Tier Data ---
 
-interface PatreonTier {
+interface PayPalTier {
   title: string;
   amount: string;
-  color: string; // Tailwind bg class for the header
-  accentColor: string; // Tailwind text class for accents
+  planId: string;
+  gifUrl: string;
+  accentColor: string; 
   quote: string;
   source: string;
 }
 
-const patreonTiers: PatreonTier[] = [
+const paypalTiers: PayPalTier[] = [
   {
-    title: "Jaya Śrīla Prabhupāda!",
-    amount: "$5 CAD",
-    color: "bg-orange-500",
-    accentColor: "text-orange-600",
-    quote: "Prāṇair arthair dhiyā vācāḥ — You must employ your life, your money, your words, and your intelligence, all for Kṛṣṇa… If you have got money, spend it for Kṛṣṇa… The more you spend, the more you are benefited.",
-    source: "Śrīla Prabhupāda, Dec 20, 1968"
+    title: "Sakhya-rasa Patron",
+    amount: "$101",
+    planId: "P-25P40071SD437552VNHQRY4Q",
+    gifUrl: "/donate/Sakhya-rasa-Patreon-Tier.gif",
+    accentColor: "text-emerald-500",
+    quote: "Whatever money you have will be spent — either the money will go, or you will go. Better spend it for Kṛṣṇa. If you spend for Kṛṣṇa, that service will be recognized.",
+    source: "Śrīla Prabhupāda"
   },
   {
-    title: "Jaya Gaurāṅga!",
-    amount: "$21 CAD",
-    color: "bg-yellow-500",
-    accentColor: "text-yellow-600",
-    quote: "Money given in charity to a learned and qualified brāhmaṇa is returned a hundred and a thousand times, and to a veda-pāraga, it is returned by unlimited multiplication.",
-    source: "SB 2.3.17, Purport"
-  },
-  {
-    title: "Jaya Jagannātha!",
-    amount: "$51 CAD",
-    color: "bg-green-600",
-    accentColor: "text-green-600",
-    quote: "Whatever money you have will be spent — either the money will go, or you will go. Better spend it for Kṛṣṇa. If you spend for Kṛṣṇa, that service will be recognized. This is ajñāta-sukṛti.",
-    source: "Śrīla Prabhupāda, Oct 31, 1976"
-  },
-  {
-    title: "Jaya Śrī Śrī Rādhā-Kṛṣṇa!",
-    amount: "$108 CAD",
-    color: "bg-blue-600",
-    accentColor: "text-blue-600",
-    quote: "If one has more than necessary, the excess should be spent for Kṛṣṇa… Unrestricted accumulation is demoniac… The gṛhasthas should spend extra money only for the Kṛṣṇa consciousness movement.",
+    title: "Vātsalya-rasa Patron",
+    amount: "$201",
+    planId: "P-9RC65174U4874863CNHQRYHI",
+    gifUrl: "/donate/Vātsalya-rasa-Patreon-Tier.gif",
+    accentColor: "text-amber-500",
+    quote: "If one has more than necessary, the excess should be spent for Kṛṣṇa… The gṛhasthas should spend extra money only for the Kṛṣṇa consciousness movement.",
     source: "SB 7.14.8, Purport"
   },
   {
-    title: "ISKM Montreal Patron",
-    amount: "$108 CAD",
-    color: "bg-purple-600",
-    accentColor: "text-purple-600",
-    quote: "Hare Kṛṣṇa dear devotee. This tier supports the establishment of the new ISKM Montreal temple. Thank you for helping Śrīla Prabhupāda's mission grow in Canada.",
-    source: "ISKM Montreal"
-  },
-  {
-    title: "Jaya Śrī Śrī Rādhā-Gopīnātha!",
-    amount: "$151 CAD",
-    color: "bg-red-600",
-    accentColor: "text-red-600",
+    title: "Mādhurya-rasa Patron",
+    amount: "$301",
+    planId: "P-1JM843614A459762ANHQRV5Q",
+    gifUrl: "/donate/Mādhurya-rasa-Patreon-Tier.gif",
+    accentColor: "text-rose-500",
     quote: "Bali Mahārāja gave everything to the Lord… and did not become poor. Those who contribute to expand this movement will never be losers; they will get everything back with Kṛṣṇa's blessings.",
     source: "SB 5.24.18, Purport"
   }
@@ -114,6 +93,67 @@ const devotionalQuotes: DevotionalQuote[] = [
     source: "Śrīmad-Bhāgavatam 5.24.18, Purport"
   }
 ];
+
+// --- PayPal Button Component ---
+
+function PayPalButton({ planId }: { planId: string }) {
+  const containerId = `paypal-button-container-${planId}`;
+
+  useEffect(() => {
+    let checkInterval: ReturnType<typeof setInterval>;
+    
+    const renderButton = () => {
+      const win = window as any;
+      if (win.paypal) {
+        const container = document.getElementById(containerId);
+        if (container) {
+          container.innerHTML = ''; // Clear previous button if React re-mounts
+        }
+        win.paypal.Buttons({
+          style: {
+              shape: 'pill',
+              color: 'white',
+              layout: 'vertical',
+              label: 'subscribe'
+          },
+          createSubscription: function(data: any, actions: any) {
+            return actions.subscription.create({
+              plan_id: planId
+            });
+          },
+          onApprove: function(data: any, actions: any) {
+             alert("Subscription ID: " + data.subscriptionID); 
+          }
+        }).render(`#${containerId}`);
+      }
+    };
+
+    if (!document.getElementById('paypal-script')) {
+      const script = document.createElement('script');
+      script.id = 'paypal-script';
+      script.src = "https://www.paypal.com/sdk/js?client-id=AQGdbWXsvSQKXa1nTfzaxgG4PeFRhniLoIzi4Rk6fKkB77zrllZtjw2zlGgy1zVDHaU3ck25ynYebWdy&vault=true&intent=subscription";
+      script.setAttribute("data-sdk-integration-source", "button-factory");
+      script.onload = renderButton;
+      document.body.appendChild(script);
+    } else {
+      checkInterval = setInterval(() => {
+        const win = window as any;
+        if (win.paypal) {
+          clearInterval(checkInterval);
+          renderButton();
+        }
+      }, 100);
+    }
+
+    return () => {
+      if (checkInterval) {
+        clearInterval(checkInterval);
+      }
+    };
+  }, [planId, containerId]);
+
+  return <div id={containerId} className="w-full mt-4 min-h-[45px] z-10 relative"></div>;
+}
 
 // --- Square Donate Button ---
 
@@ -207,25 +247,27 @@ function SquareDonateButton() {
 
 // --- Tier Card Component ---
 
-function TierCard({ tier }: { tier: PatreonTier }) {
+function TierCard({ tier }: { tier: PayPalTier }) {
   return (
-    <Card className="flex flex-col h-full overflow-hidden border-border/50 hover:border-amber-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group bg-card">
-      {/* Color Header */}
-      <div className={`${tier.color} p-6 text-white relative overflow-hidden`}>
-        <div className="absolute top-0 right-0 p-4 opacity-10 transform rotate-12 scale-150">
-          <Sparkles className="w-24 h-24" />
-        </div>
-        <div className="relative z-10">
-          <h3 className="font-bold text-xl md:text-2xl font-serif tracking-wide mb-1">
+    <Card className="flex flex-col h-full overflow-hidden border-border/50 hover:border-amber-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group bg-card relative z-0">
+      {/* GIF Header */}
+      <div className="w-full h-56 sm:h-64 overflow-hidden relative">
+        <img 
+          src={tier.gifUrl} 
+          alt={tier.title} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6 z-10">
+          <h3 className="font-bold text-xl md:text-2xl font-serif tracking-wide text-white mb-1 drop-shadow-md">
             {tier.title}
           </h3>
-          <div className="inline-flex items-center bg-white/20 backdrop-blur-md rounded-full px-3 py-1 text-sm font-semibold">
-            {tier.amount} <span className="text-white/80 text-xs ml-1">/ month</span>
+          <div className="inline-flex items-center bg-black/40 backdrop-blur-md rounded-full px-4 py-1.5 text-sm font-semibold text-white w-fit border border-white/20">
+            {tier.amount} <span className="text-white/80 text-xs ml-1 font-normal uppercase">/ month</span>
           </div>
         </div>
       </div>
 
-      <CardContent className="flex-1 p-6 flex flex-col">
+      <CardContent className="flex-1 p-6 flex flex-col relative z-20">
         <div className="mb-6">
           <Quote className={`w-8 h-8 ${tier.accentColor} opacity-20 mb-2`} />
           <blockquote className="text-muted-foreground dark:text-zinc-300 italic leading-relaxed text-sm font-medium">
@@ -237,16 +279,18 @@ function TierCard({ tier }: { tier: PatreonTier }) {
         </div>
         
         <div className="mt-auto pt-6 border-t border-border/50 dark:border-white/10">
-          <ul className="space-y-2">
-            <li className="flex items-center text-sm text-muted-foreground dark:text-zinc-400">
-              <Check className={`w-4 h-4 mr-2 ${tier.accentColor}`} />
-              Support Temple Maintenance
+          <ul className="space-y-3 mb-6">
+            <li className="flex items-start text-sm text-muted-foreground dark:text-zinc-400">
+              <Check className={`w-4 h-4 mr-2 mt-0.5 shrink-0 ${tier.accentColor}`} />
+              <span>Direct support for Temple Maintenance & Deity Worship</span>
             </li>
-            <li className="flex items-center text-sm text-muted-foreground dark:text-zinc-400">
-              <Check className={`w-4 h-4 mr-2 ${tier.accentColor}`} />
-              Book Distribution
+            <li className="flex items-start text-sm text-muted-foreground dark:text-zinc-400">
+              <Check className={`w-4 h-4 mr-2 mt-0.5 shrink-0 ${tier.accentColor}`} />
+              <span>Sponsor Book & Prasādam Distribution</span>
             </li>
           </ul>
+
+          <PayPalButton planId={tier.planId} />
         </div>
       </CardContent>
     </Card>
@@ -275,7 +319,7 @@ function FeatureCard({ icon: Icon, title, description }: { icon: any, title: str
 
 function DonatePage() {
   return (
-    <div className="min-h-screen bg-background font-sans selection:bg-amber-200 selection:text-amber-900">
+    <div className="min-h-screen bg-background font-sans selection:bg-amber-200 selection:text-amber-900 pb-20">
       
       {/* Hero Banner */}
       <div className="relative h-[45vh] md:h-[50vh] overflow-hidden">
@@ -311,7 +355,7 @@ function DonatePage() {
                 </div>
                 <CardTitle className="text-2xl font-bold text-white">One-Time Donation</CardTitle>
                 <CardDescription className="text-base text-zinc-400">
-                  Make a quick, secure offering via Square.
+                  Make a quick, secure offering.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4 pt-6">
@@ -324,29 +368,29 @@ function DonatePage() {
             </Card>
 
             {/* Monthly Support */}
-            <Card className="border-none shadow-2xl bg-gradient-to-br from-purple-900 to-indigo-950 text-white ring-1 ring-white/10">
+            <Card className="border-none shadow-2xl bg-gradient-to-br from-indigo-900 to-blue-950 text-white ring-1 ring-white/10">
               <CardHeader className="pb-2">
-                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-purple-200 mb-4">
+                <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-blue-200 mb-4">
                   <Sparkles className="w-6 h-6" />
                 </div>
                 <CardTitle className="text-2xl font-bold text-white">Monthly Patron</CardTitle>
-                <CardDescription className="text-purple-200 text-base">
-                  Join our family of recurring supporters on Patreon.
+                <CardDescription className="text-blue-200 text-base">
+                  Join our family of recurring supporters to sustain the mission.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4 pt-6">
+              <CardContent className="space-y-4 pt-6 flex flex-col justify-center">
                 <Button
                   size="lg"
-                  className="w-full bg-white text-purple-900 hover:bg-purple-50 hover:scale-[1.02] transition-all duration-300 font-bold text-lg shadow-lg border-0"
-                  asChild
+                  className="w-full bg-white text-indigo-900 hover:bg-blue-50 hover:scale-[1.02] transition-all duration-300 font-bold text-lg shadow-lg border-0"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById('monthly-tiers')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
-                  <a href="https://patreon.com/Nitai" target="_blank" rel="noopener noreferrer">
-                    Become a Patron
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </a>
+                  View Subscription Plans
                 </Button>
-                <p className="text-xs text-purple-200/80 text-center">
-                  Choose from multiple tiers starting at $5/mo
+                <p className="text-xs text-blue-200/80 text-center">
+                  Scroll down to choose your Rasa Plan
                 </p>
               </CardContent>
             </Card>
@@ -418,29 +462,28 @@ function DonatePage() {
           </div>
         </section>
 
-        {/* Patreon Tiers */}
-        <section>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-foreground dark:text-white mb-3">Choose Your Offering</h2>
-            <p className="text-muted-foreground dark:text-zinc-400 text-lg">Select a monthly tier that resonates with your heart.</p>
+        {/* Monthly Subscription Tiers */}
+        <section id="monthly-tiers" className="scroll-mt-24">
+          <div className="text-center mb-12 px-4">
+            <Badge className="mb-4 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 uppercase tracking-widest text-xs px-3 py-1">
+              Monthly Subscription
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground dark:text-white mb-4">Choose Your Offering</h2>
+            <p className="text-muted-foreground dark:text-zinc-400 text-lg max-w-2xl mx-auto">
+              Select a monthly Rasa plan that resonates with your heart to help sustain our ongoing services securely via PayPal.
+            </p>
           </div>
           
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {patreonTiers.map((tier, i) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 lg:px-0">
+            {paypalTiers.map((tier, i) => (
               <TierCard key={i} tier={tier} />
             ))}
           </div>
           
-          <div className="text-center mt-12">
-            <p className="text-muted-foreground dark:text-zinc-400 mb-6">
-              All tiers include our eternal gratitude and the blessings of the Vaiṣṇavas.
+          <div className="text-center mt-12 px-4">
+            <p className="text-muted-foreground dark:text-zinc-400">
+              All tiers include our eternal gratitude and the blessings of the Vaiṣṇavas. You can cancel your subscription anytime via PayPal.
             </p>
-            <Button size="lg" variant="outline" className="border-amber-200 hover:bg-amber-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white" asChild>
-              <a href="https://patreon.com/Nitai" target="_blank" rel="noopener noreferrer">
-                View All Tiers on Patreon
-                <ExternalLink className="w-4 h-4 ml-2" />
-              </a>
-            </Button>
           </div>
         </section>
 
