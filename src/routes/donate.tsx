@@ -47,7 +47,7 @@ const paypalTiers: PayPalTier[] = [
     title: "Sakhya-rasa Patron",
     amount: "$101",
     planId: "P-25P40071SD437552VNHQRY4Q",
-    gifUrl: "/donate/Sakhya-rasa-Patreon-Tier.gif",
+    gifUrl: "/donate/sr.gif",
     accentColor: "text-emerald-500",
     quote: "Whatever money you have will be spent — either the money will go, or you will go. Better spend it for Kṛṣṇa. If you spend for Kṛṣṇa, that service will be recognized.",
     source: "Śrīla Prabhupāda"
@@ -56,7 +56,7 @@ const paypalTiers: PayPalTier[] = [
     title: "Vātsalya-rasa Patron",
     amount: "$201",
     planId: "P-9RC65174U4874863CNHQRYHI",
-    gifUrl: "/donate/Vātsalya-rasa-Patreon-Tier.gif",
+    gifUrl: "/donate/vr.gif",
     accentColor: "text-amber-500",
     quote: "If one has more than necessary, the excess should be spent for Kṛṣṇa… The gṛhasthas should spend extra money only for the Kṛṣṇa consciousness movement.",
     source: "SB 7.14.8, Purport"
@@ -65,7 +65,7 @@ const paypalTiers: PayPalTier[] = [
     title: "Mādhurya-rasa Patron",
     amount: "$301",
     planId: "P-1JM843614A459762ANHQRV5Q",
-    gifUrl: "/donate/Mādhurya-rasa-Patreon-Tier.gif",
+    gifUrl: "/donate/mr.gif",
     accentColor: "text-rose-500",
     quote: "Bali Mahārāja gave everything to the Lord… and did not become poor. Those who contribute to expand this movement will never be losers; they will get everything back with Kṛṣṇa's blessings.",
     source: "SB 5.24.18, Purport"
@@ -116,12 +116,12 @@ function PayPalButton({ planId }: { planId: string }) {
               layout: 'vertical',
               label: 'subscribe'
           },
-          createSubscription: function(data: any, actions: any) {
+          createSubscription: function(_data: any, actions: any) {
             return actions.subscription.create({
               plan_id: planId
             });
           },
-          onApprove: function(data: any, actions: any) {
+          onApprove: function(data: any) {
              alert("Subscription ID: " + data.subscriptionID); 
           }
         }).render(`#${containerId}`);
