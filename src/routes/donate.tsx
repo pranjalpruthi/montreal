@@ -251,11 +251,11 @@ function TierCard({ tier }: { tier: PayPalTier }) {
   return (
     <Card className="flex flex-col h-full overflow-hidden border-border/50 hover:border-amber-500/50 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group bg-card relative z-0">
       {/* GIF Header */}
-      <div className="w-full h-56 sm:h-64 overflow-hidden relative">
+      <div className="w-full overflow-hidden relative bg-black">
         <img 
           src={tier.gifUrl} 
           alt={tier.title} 
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6 z-10">
           <h3 className="font-bold text-xl md:text-2xl font-serif tracking-wide text-white mb-1 drop-shadow-md">
@@ -397,6 +397,31 @@ function DonatePage() {
           </div>
         </section>
 
+        {/* Monthly Subscription Tiers */}
+        <section id="monthly-tiers" className="scroll-mt-24">
+          <div className="text-center mb-12 px-4">
+            <Badge className="mb-4 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 uppercase tracking-widest text-xs px-3 py-1">
+              Monthly Subscription
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground dark:text-white mb-4">Choose Your Offering</h2>
+            <p className="text-muted-foreground dark:text-zinc-400 text-lg max-w-2xl mx-auto">
+              Select a monthly Rasa plan that resonates with your heart to help sustain our ongoing services securely via PayPal.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 lg:px-0">
+            {paypalTiers.map((tier, i) => (
+              <TierCard key={i} tier={tier} />
+            ))}
+          </div>
+          
+          <div className="text-center mt-12 px-4">
+            <p className="text-muted-foreground dark:text-zinc-400">
+              All tiers include our eternal gratitude and the blessings of the Vaiṣṇavas. You can cancel your subscription anytime via PayPal.
+            </p>
+          </div>
+        </section>
+
         {/* Why Donate Section */}
         <section className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
@@ -459,31 +484,6 @@ function DonatePage() {
                 </p>
               </div>
             ))}
-          </div>
-        </section>
-
-        {/* Monthly Subscription Tiers */}
-        <section id="monthly-tiers" className="scroll-mt-24">
-          <div className="text-center mb-12 px-4">
-            <Badge className="mb-4 bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 uppercase tracking-widest text-xs px-3 py-1">
-              Monthly Subscription
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground dark:text-white mb-4">Choose Your Offering</h2>
-            <p className="text-muted-foreground dark:text-zinc-400 text-lg max-w-2xl mx-auto">
-              Select a monthly Rasa plan that resonates with your heart to help sustain our ongoing services securely via PayPal.
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-4 lg:px-0">
-            {paypalTiers.map((tier, i) => (
-              <TierCard key={i} tier={tier} />
-            ))}
-          </div>
-          
-          <div className="text-center mt-12 px-4">
-            <p className="text-muted-foreground dark:text-zinc-400">
-              All tiers include our eternal gratitude and the blessings of the Vaiṣṇavas. You can cancel your subscription anytime via PayPal.
-            </p>
           </div>
         </section>
 
