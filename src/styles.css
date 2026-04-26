@@ -459,3 +459,22 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--foreground);
 }
+/* Hide Google Translate Toolbar */
+.goog-te-banner-frame.skiptranslate, 
+.goog-te-gadget-icon, 
+.goog-te-gadget-simple span, 
+.goog-te-menu-value span {
+    display: none !important;
+}
+
+body {
+    top: 0 !important;
+}
+
+#google_translate_element {
+    display: none !important;
+}
+
+.goog-te-spinner-pos {
+    display: none !important;
+}

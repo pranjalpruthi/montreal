@@ -110,6 +110,7 @@ import { CommandMenu } from '@/components/command-menu'
 
 import { InitialPageLoader } from '@/components/layouts/page-loader'
 import React from 'react'
+import { TranslationWidgetLoader } from '@/components/ui/translation-widget-loader'
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = React.useState(true)
@@ -140,6 +141,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
                 {children}
               </MainLayout>
               <CommandMenu />
+              <TranslationWidgetLoader />
             </>
           )}
         </ThemeProvider>

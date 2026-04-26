@@ -1,12 +1,17 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Youtube, Search, Heart } from 'lucide-react'
+import { Youtube, Search, Heart, Languages } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
 import { motion, useScroll, useMotionValueEvent } from 'motion/react'
-import { GoogleTranslate } from '@/components/ui/google-translate'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+} from "@/components/ui/select"
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -14,6 +19,22 @@ export function Navbar() {
     const { scrollY } = useScroll()
     const location = useLocation()
     const isBlog = location.pathname.startsWith('/blog')
+    const [currentLang, setCurrentLang] = useState(localStorage.getItem('selected_language') || 'en')
+
+    const handleLanguageChange = (newLang: string) => {
+        setCurrentLang(newLang)
+        localStorage.setItem('selected_language', newLang)
+        
+        // Use the global translate function provided by the widget
+        if ((window as any).translateTo) {
+            (window as any).translateTo(newLang)
+        } else {
+            // Fallback: reload with query param
+            const url = new URL(window.location.href)
+            url.searchParams.set('lang', newLang)
+            window.location.href = url.toString()
+        }
+    }
 
     useMotionValueEvent(scrollY, "change", (current) => {
         const previous = scrollY.getPrevious() || 0
@@ -128,9 +149,6 @@ export function Navbar() {
 
                     {/* Actions (Right) */}
                     <div className="flex items-center gap-2">
-                        <div className="hidden lg:block mr-2 [&>div]:!bg-transparent">
-                            <GoogleTranslate />
-                        </div>
                         <Button
                             variant="ghost"
                             size="icon"
@@ -140,6 +158,18 @@ export function Navbar() {
                         >
                             <Search className="h-5 w-5" />
                         </Button>
+                        <Select value={currentLang} onValueChange={handleLanguageChange}>
+                            <SelectTrigger className="w-[70px] h-9 rounded-full bg-transparent border-none hover:bg-foreground/5 transition-colors focus:ring-0">
+                                <div className="flex items-center gap-1">
+                                    <Languages className="h-4 w-4" />
+                                    <span className="text-xs font-bold uppercase">{currentLang}</span>
+                                </div>
+                            </SelectTrigger>
+                            <SelectContent className="min-w-[100px] rounded-xl">
+                                <SelectItem value="en">English</SelectItem>
+                                <SelectItem value="fr">Français</SelectItem>
+                            </SelectContent>
+                        </Select>
                         <Button asChild variant="ghost" size="icon" className="rounded-full text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30">
                             <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
                                 <Youtube className="h-5 w-5" />
@@ -179,6 +209,18 @@ export function Navbar() {
                         </Link>
                     </div>
                     <div className="flex items-center gap-2">
+                        <Select value={currentLang} onValueChange={handleLanguageChange}>
+                            <SelectTrigger className="w-[60px] h-8 rounded-full border-none bg-transparent hover:bg-foreground/5 focus:ring-0">
+                                <div className="flex items-center gap-1">
+                                    <Languages className="h-3 w-3" />
+                                    <span className="text-xs font-bold uppercase">{currentLang}</span>
+                                </div>
+                            </SelectTrigger>
+                            <SelectContent className="rounded-xl">
+                                <SelectItem value="en">EN</SelectItem>
+                                <SelectItem value="fr">FR</SelectItem>
+                            </SelectContent>
+                        </Select>
                         <Button asChild size="icon" className="rounded-full h-9 w-9 bg-red-600 text-white hover:bg-red-700 shadow-sm border border-red-700/20">
                             <a href="https://www.youtube.com/@iskmfrancais" target="_blank" rel="noopener noreferrer" aria-label="YouTube Channel">
                                 <Youtube className="h-4 w-4" />
