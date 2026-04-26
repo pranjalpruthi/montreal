@@ -6,6 +6,7 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { cn } from '@/lib/utils'
 import { MobileDock } from '@/components/layouts/mobile-dock'
 import { motion, useScroll, useMotionValueEvent } from 'motion/react'
+import { GoogleTranslate } from '@/components/ui/google-translate'
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = useState(false)
@@ -127,6 +128,9 @@ export function Navbar() {
 
                     {/* Actions (Right) */}
                     <div className="flex items-center gap-2">
+                        <div className="hidden lg:block mr-2 [&>div]:!bg-transparent">
+                            <GoogleTranslate />
+                        </div>
                         <Button
                             variant="ghost"
                             size="icon"
