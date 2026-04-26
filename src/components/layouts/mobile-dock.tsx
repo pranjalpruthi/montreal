@@ -14,8 +14,8 @@ import {
   MapPin,
   BookOpen,
   Users,
-  Library
-
+  Library,
+  Utensils
 } from 'lucide-react';
 import { Link, useLocation } from '@tanstack/react-router';
 import { gsap } from 'gsap';
@@ -63,6 +63,7 @@ const ITEMS: DockItem[] = [
       { label: 'Shop', href: '/shop', icon: ShoppingBag, colorClass: 'text-orange-500', bgClass: 'bg-orange-500/10 group-hover:bg-orange-500/20' },
       { label: 'Centers', href: '/centers', icon: MapPin, colorClass: 'text-green-500', bgClass: 'bg-green-500/10 group-hover:bg-green-500/20' },
       { label: 'Community', href: '/community', icon: Users, colorClass: 'text-purple-500', bgClass: 'bg-purple-500/10 group-hover:bg-purple-500/20' },
+      { label: 'Prasadam', href: '/prasadam', icon: Utensils, colorClass: 'text-amber-500', bgClass: 'bg-amber-500/10 group-hover:bg-amber-500/20' },
       { label: 'Resources', href: '/resources', icon: Library, colorClass: 'text-indigo-500', bgClass: 'bg-indigo-500/10 group-hover:bg-indigo-500/20' },
       { label: 'Calendar', href: '/calendar', icon: Calendar, colorClass: 'text-red-500', bgClass: 'bg-red-500/10 group-hover:bg-red-500/20' },
     ]

@@ -63,7 +63,7 @@ interface BookDetailData {
 const gitaJayantiBookDetails: BookDetailData = {
   id: "gita-jayanti",
   orderIdPrefix: "GITA",
-  title: "Bhagavad-gītā As It Is",
+  title: "Introduction of Bhagavad Gita",
   subtitle: "Gītā Jayantī Special Edition",
   coverImage: "/thumbnails/bg-fr-cover.jpg",
   description: "Sponsor or purchase a Bhagavad-gītā this Gītā Jayantī. 3,000 copies arriving soon. Your contribution places the absolute truth in someone's hands.",
@@ -77,7 +77,7 @@ All Glories to Śrīla Prabhupāda!
 
 I would like to order/sponsor Bhagavad-gītā for Gītā Jayantī.
 My Temple Site Order Number is: `,
-  price: <div className="flex items-baseline gap-2"><span className="line-through text-muted-foreground text-lg">$30 CAD</span><span>$15 CAD</span></div>,
+  price: "$5 CAD",
   shippingNote: "(per book sponsored) or order at home",
   quote: {
     text: "Prāṇair arthair dhiyā vācāḥ. You have to employ your life, your money, your words, and your intelligence, all for Kṛṣṇa. That is Kṛṣṇa consciousness. If you have got enough money, spend it for Kṛṣṇa. Don't stock it. The more you spend, more you become balanceless for spending Kṛṣṇa, then more you are benefited. This is the process.",
@@ -105,7 +105,7 @@ All Glories to Śrīla Prabhupāda!
 
 I would like to order the book "Initiations After 1977".
 My Temple Site Order Number is: `,
-  price: "$50 CAD",
+  price: "$5 CAD",
   shippingNote: "excluding shipping charges",
   quote: {
     text: "I have deputed the ritvik, the representative of the acharya, to act for me.",
@@ -132,7 +132,7 @@ All Glories to Śrīla Prabhupāda!
 
 I would like to order the book "Why Worship Only Krsna?".
 My Temple Site Order Number is: `,
-  price: "$30 CAD",
+  price: "$10 CAD",
   shippingNote: "excluding shipping charges",
   quote: {
     text: "Abandon all varieties of religion and just surrender unto Me. I shall deliver you from all sinful reactions. Do not fear.",

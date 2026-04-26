@@ -33,7 +33,7 @@ function Community() {
               <div className="space-y-6">
                 <h3 className="text-xl font-semibold text-[#FF8C00] dark:text-accent">Seva Opportunities</h3>
                 <div className="grid sm:grid-cols-2 gap-4">
-                  {['Kitchen Assistance', 'Temple Cleaning', 'Garland Making', 'Book Distribution'].map((item, i) => (
+                  {['Food Distribution', 'Temple services', 'Kirtan', 'Book Distribution'].map((item, i) => (
                     <div key={i} className="flex items-center gap-3 bg-white/5 dark:bg-white/5 p-3 rounded-lg border border-white/10 dark:border-white/5">
                       <div className="h-2 w-2 rounded-full bg-[#FF8C00] dark:bg-accent"></div>
                       <span className="text-sm text-white/80 dark:text-muted-foreground">{item}</span>
@@ -56,10 +56,10 @@ function Community() {
                     </div>
                     <div>
                       <p className="font-semibold text-lg text-white dark:text-foreground">ISKM Montreal</p>
-                      <p className="text-white/70 dark:text-muted-foreground">4625 Rue Clark</p>
-                      <p className="text-white/70 dark:text-muted-foreground">Montréal, QC H2T 2T3, Canada</p>
+                      <p className="text-white/70 dark:text-muted-foreground">5779 Bd Monk</p>
+                      <p className="text-white/70 dark:text-muted-foreground">Montréal, QC H4E 3H2, Canada</p>
                       <a
-                        href="https://maps.app.goo.gl/4XyetfVhD89Bu47T8"
+                        href="https://maps.google.com/?q=5779+Bd+Monk,+Montréal,+QC+H4E+3H2"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#FF8C00] hover:text-[#FF8C00]/80 dark:text-accent dark:hover:text-accent/80 text-sm mt-2 inline-flex items-center gap-1"

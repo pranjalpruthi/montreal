@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PrasadamRouteImport } from './routes/prasadam'
 import { Route as DonateRouteImport } from './routes/donate'
 import { Route as CommunityRouteImport } from './routes/community'
 import { Route as CalendarRouteImport } from './routes/calendar'
@@ -31,6 +32,11 @@ import { Route as BlogSlugRouteImport } from './routes/blog/$slug'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 
+const PrasadamRoute = PrasadamRouteImport.update({
+  id: '/prasadam',
+  path: '/prasadam',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DonateRoute = DonateRouteImport.update({
   id: '/donate',
   path: '/donate',
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/calendar': typeof CalendarRoute
   '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
+  '/prasadam': typeof PrasadamRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/calendar': typeof CalendarRoute
   '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
+  '/prasadam': typeof PrasadamRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/calendar': typeof CalendarRoute
   '/community': typeof CommunityRoute
   '/donate': typeof DonateRoute
+  '/prasadam': typeof PrasadamRoute
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/community'
     | '/donate'
+    | '/prasadam'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/blog/$slug'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/community'
     | '/donate'
+    | '/prasadam'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/blog/$slug'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/calendar'
     | '/community'
     | '/donate'
+    | '/prasadam'
     | '/auth/sign-in'
     | '/auth/sign-up'
     | '/blog/$slug'
@@ -285,6 +297,7 @@ export interface RootRouteChildren {
   CalendarRoute: typeof CalendarRoute
   CommunityRoute: typeof CommunityRoute
   DonateRoute: typeof DonateRoute
+  PrasadamRoute: typeof PrasadamRoute
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -305,6 +318,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/prasadam': {
+      id: '/prasadam'
+      path: '/prasadam'
+      fullPath: '/prasadam'
+      preLoaderRoute: typeof PrasadamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/donate': {
       id: '/donate'
       path: '/donate'
@@ -461,6 +481,7 @@ const rootRouteChildren: RootRouteChildren = {
   CalendarRoute: CalendarRoute,
   CommunityRoute: CommunityRoute,
   DonateRoute: DonateRoute,
+  PrasadamRoute: PrasadamRoute,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignUpRoute: AuthSignUpRoute,
   BlogSlugRoute: BlogSlugRoute,

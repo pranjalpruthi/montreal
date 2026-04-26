@@ -90,7 +90,7 @@ export function Programs() {
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
-                <CardTitle className="text-2xl">Daily Worship</CardTitle>
+                <CardTitle className="text-2xl">Daily Schedule</CardTitle>
                 <p className="text-muted-foreground">Morning & Evening Programs</p>
               </CardHeader>
               <CardContent className="space-y-6">

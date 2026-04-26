@@ -3,6 +3,7 @@ import { motion } from 'motion/react'
 import { Calendar, Play, Youtube, Facebook, Clock, Globe } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Marquee } from '@/components/magicui/marquee'
+import { FacebookFeed } from '@/components/community/facebook-feed'
 
 // TypeScript declarations for Facebook SDK
 declare global {
@@ -58,41 +59,7 @@ export function Feed() {
     fetchVideos()
   }, [])
 
-  useEffect(() => {
-    // Load Facebook SDK
-    const loadFacebookSDK = () => {
-      if (window.FB) {
-        window.FB.XFBML.parse()
-        return
-      }
 
-      if (!document.getElementById('fb-root')) {
-        const fbRoot = document.createElement('div')
-        fbRoot.id = 'fb-root'
-        document.body.insertBefore(fbRoot, document.body.firstChild)
-      }
-
-      const script = document.createElement('script')
-      script.id = 'facebook-jssdk'
-      script.async = true
-      script.defer = true
-      script.crossOrigin = 'anonymous'
-      script.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0'
-      
-      script.onload = () => {
-        if (window.FB) {
-          window.FB.XFBML.parse()
-        }
-      }
-
-      const firstScript = document.getElementsByTagName('script')[0]
-      if (firstScript && firstScript.parentNode) {
-        firstScript.parentNode.insertBefore(script, firstScript)
-      }
-    }
-
-    loadFacebookSDK()
-  }, [])
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
@@ -168,37 +135,13 @@ export function Feed() {
           
           {/* Left Column: Facebook Feed */}
           <motion.div 
-            className="lg:col-span-5 flex flex-col gap-6"
+            className="lg:col-span-7 flex flex-col gap-6"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 rounded-lg bg-blue-500/10 text-blue-600">
-                <Facebook className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">Community Updates</h3>
-                <p className="text-sm text-muted-foreground">Latest from ISKM Montreal</p>
-              </div>
-            </div>
-
-            <div className="w-full overflow-hidden flex justify-center lg:justify-center">
-              <div className="fb-page w-full" 
-                data-href="https://www.facebook.com/profile.php?id=61580147803495"
-                data-tabs="timeline"
-                data-width="1000"
-                data-height="700"
-                data-small-header="false"
-                data-adapt-container-width="true"
-                data-hide-cover="false"
-                data-show-facepile="true">
-                <blockquote cite="https://www.facebook.com/profile.php?id=61580147803495" className="fb-xfbml-parse-ignore">
-                  <a href="https://www.facebook.com/profile.php?id=61580147803495">ISKCON Montreal</a>
-                </blockquote>
-              </div>
-            </div>
+            <FacebookFeed />
 
             {/* Quote Card 1 */}
             <div className="p-6 rounded-xl bg-gradient-to-br from-amber-500/10 to-orange-500/5 border border-amber-500/20">
@@ -213,7 +156,7 @@ export function Feed() {
 
           {/* Right Column: YouTube Feed */}
           <motion.div 
-            className="lg:col-span-7 flex flex-col gap-6"
+            className="lg:col-span-5 flex flex-col gap-6"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

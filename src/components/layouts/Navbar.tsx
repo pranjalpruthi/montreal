@@ -42,6 +42,7 @@ export function Navbar() {
         { to: '/', label: 'Home' },
         { to: '/', hash: 'programs', label: 'Programs' },
         { to: '/resources', label: 'Resources' },
+        { to: '/prasadam', label: 'Prasadam' },
         { to: '/community', label: 'Community' },
         { to: '/blog', label: 'Blog' },
         { to: '/', hash: 'about', label: 'About' },

@@ -1,12 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Hero } from '@/components/homepage/Hero'
-import { NewsroomUpdates } from '@/components/homepage/newsroom'
+import { TempleGallery } from '@/components/homepage/temple-gallery'
 import { FeaturedSection } from '@/components/homepage/featured-section'
 import { FeaturedBooksSection } from '@/components/homepage/featured-books-section'
 import { About } from '@/components/homepage/About'
 import { Programs } from '@/components/homepage/Programs'
 import { Resources } from '@/components/homepage/Resources'
-import { SlokaLearningSection } from '@/components/homepage/sloka-learning-section'
 import { ShortsSection } from '@/components/homepage/shorts-section'
 
 export const Route = createFileRoute('/')({
@@ -20,11 +19,10 @@ function Home() {
         Skip to main content
       </a>
       <Hero />
-      <NewsroomUpdates />
+      <TempleGallery />
       <About />
       <Programs />
       <FeaturedSection />
-      <SlokaLearningSection />
       <ShortsSection />
       <FeaturedBooksSection />
       <Resources />
